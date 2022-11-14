@@ -1,0 +1,15 @@
+note over käyttäjä:
+käyttäjä menee selaimella osoitteeseen https://studies.cs.helsinki.fi/exampleapp/spa
+end note
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin-->käyttäjä: HTML-koodi
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->käyttäjä: main.css
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->käyttäjä: main.css 
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin-->käyttäjä: spa.js
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->käyttäjä: data.json
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+palvelin-->käyttäjä: favicon.ico

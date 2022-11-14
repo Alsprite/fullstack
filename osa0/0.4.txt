@@ -1,0 +1,15 @@
+note over käyttäjä:
+kirjoittaa jotain tekstikenttään ja painaa tallenna
+end note
+käyttäjä->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+käyttäjä-->palvelin: new_note (muistiinpano)
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->käyttäjä: HTML-koodi
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->käyttäjä: main.css 
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin-->käyttäjä: main.js
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->käyttäjä: data.json (muistiinpanot)
+käyttäjä->palvelin: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+palvelin-->käyttäjä: favicon.ico

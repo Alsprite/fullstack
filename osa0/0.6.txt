@@ -1,0 +1,5 @@
+note over käyttäjä:
+käyttäjä luo uuden muistiinpanon spa-versiossa
+end note
+käyttäjä->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+käyttäjä-->palvelin: new_note_spa (muistiinpano)
