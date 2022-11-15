@@ -1,3 +1,5 @@
+
+
 const Header = ({course}) => {
   return (
     <div>
@@ -10,18 +12,19 @@ const Content = () => {
   return (
     <div>
       <p>
-        
+
       </p>
     </div>
   )
 }
-// const Total = ({exercises1, exercises2, exercises3}) => {
-//   return (
-//     <div>
-//       <p> Number of exercises {exercises1 + exercises2 + exercises3}</p>
-//     </div>
-//   )
-// }
+const Total = ({exercises1, exercises2, exercises3}) => {
+
+  return (
+    <div>
+      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+    </div>
+  )
+}
 const App = () => {
   // const-määrittelyt
   const course = "Half Stack application development";
@@ -36,7 +39,7 @@ const App = () => {
     <div>
       <Header course={course} />
       <Content />
-      {/* <Total /> */}
+      <Total />
     </div>
   )
 }
