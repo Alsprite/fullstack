@@ -8,36 +8,36 @@ const Header = ({course}) => {
   )
 }
 const Content = () => {
-
   return (
     <div>
       <p>
-
       </p>
     </div>
   )
 }
-const Total = ({exercises1, exercises2, exercises3}) => {
+const Total = (props) => {
 
   return (
     <div>
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
     </div>
   )
 }
 const App = () => {
   // const-määrittelyt
-  const course = "Half Stack application development";
-  const part1 = "Fundamentals of React";
-  const exercises1 = 10;
-  const part2 = "Using props to pass data";
-  const exercises2 = 7;
-  const part3 = "State of a component";
-  const exercises3 = 14;
+  const props = {
+    course: "Half Stack application development",
+    part1: "Fundamentals of React",
+    exercises1: 10,
+    part2: "Using props to pass data",
+    exercises2: 7,
+    part3: "State of a component",
+    exercises3: 14
+  }
 
   return (
     <div>
-      <Header course={course} />
+      <Header course={props.course} />
       <Content />
       <Total />
     </div>
