@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Randomizer from 'react-randomizer'
 const Button = (props) => {
   return (
     <div>
