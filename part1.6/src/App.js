@@ -18,7 +18,6 @@ const StatisticLine = (props) => {
             </tr>
           </tbody>
       </table>
-      {/* <p>{props.text} {props.value}</p> */}
     </div>
   )
 }
