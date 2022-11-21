@@ -1,9 +1,16 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  var good = props.good;
+  if (good == 0) {
+    return (
+      <div>
+        <h2>No feedback given</h2>
+      </div>
+    )
+  }
   return (
     <div>
-      <h2>No feedback given</h2>
       <h1>Statistics</h1>
       <p>Good {props.good}</p>
       <p>Neutral {props.neutral}</p>
@@ -14,7 +21,6 @@ const Statistics = (props) => {
     </div>
   )
 }
-
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
