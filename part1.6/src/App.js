@@ -64,9 +64,14 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.'
   ]
-   
   const [selected, setSelected] = useState(0);
   const [isShown, setIsShown] = useState(true);
+  const points = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 }
+
+  // points[0] += 1;
+  // const copy = { ...points }
+  // // kasvatetaan olion kentän 2 arvoa yhdellä
+  // copy[2] += 1
 
   return (
     <div>
@@ -75,8 +80,10 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="Bad" />
       <Statistics good = {good} neutral = {neutral} bad = {bad} all = {all} all2 = {all2} goodOnes = {goodOnes} average = {average} positive = {positive} />
-      <Button handleClick={() => {setSelected(Math.floor(Math.random() * anecdotes.length)); setIsShown(s => !s)}} text="Random anecdotes" />
+      <Button handleClick={() => {setSelected(Math.floor(Math.random() * anecdotes.length)); setIsShown(s => !s)}} text="Random anecdote" />
+      <Button handleClick={() => points[anecdotes[selected]]+=1} text="Vote" />
       <p style={{display: isShown ? 'none' : 'block'}}>{anecdotes[selected]}</p>
+      <p style={{display: isShown ? 'none' : 'block'}}>Votes: {points[anecdotes[selected]]}</p>
     </div>
   )
 }
