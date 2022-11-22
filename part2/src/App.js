@@ -22,6 +22,10 @@ const Part = (props) => {
   )
 }
 const Total = (props) => {
+  const sum = props.p.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+  console.log(sum);
   return (
     <div>
       <p>Total of {props.p[0].exercises + props.p[1].exercises + props.p[2].exercises + props.p[3].exercises} exercises</p>
