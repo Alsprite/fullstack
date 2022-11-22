@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Randomizer from 'react-randomizer'
 const Button = (props) => {
   return (
     <div>
@@ -66,7 +67,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0);
-  let jokurandomanecdote = anecdotes[Math.floor(Math.random()*7)]
+  // anecdotes[Math.floor(Math.random()*7)]
 
 
   return (
@@ -76,8 +77,8 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="Bad" />
       <Statistics good = {good} neutral = {neutral} bad = {bad} all = {all} all2 = {all2} goodOnes = {goodOnes} average = {average} positive = {positive} />
-      <Button handleClick={() => setSelected()} text="Random anecdotes" />
-      <p></p>
+      <p>{anecdotes[selected]}</p>
+      <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text="Random anecdotes" />
     </div>
   )
 }
