@@ -66,14 +66,14 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(0);
   const [isShown, setIsShown] = useState(true);
-  const points = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 }
+  
+  const points = [1, 4, 6, 3]
 
-  // points[0] += 1;
-  // const copy = { ...points }
-  // // kasvatetaan olion kentän 2 arvoa yhdellä
-  // copy[2] += 1
+  const copy = [...points]
+  // kasvatetaan taulukon paikan 2 arvoa yhdellä
+  copy[2] += 1  
 
-  return (
+  return (  
     <div>
       <h1>Give feedback</h1>
       <Button handleClick={() => setGood(good + 1)} text="Good" />
