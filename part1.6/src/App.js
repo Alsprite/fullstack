@@ -6,7 +6,6 @@ const Button = (props) => {
       <button onClick={() => props.handleClick()}>{props.text}</button>
     </div>
   )
-  
 }
 const StatisticLine = (props) => {
   return (
@@ -67,8 +66,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0);
-  // anecdotes[Math.floor(Math.random()*7)]
-
+  const [isShown, setIsShown] = useState(true);
 
   return (
     <div>
@@ -77,8 +75,8 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="Bad" />
       <Statistics good = {good} neutral = {neutral} bad = {bad} all = {all} all2 = {all2} goodOnes = {goodOnes} average = {average} positive = {positive} />
-      <p>{anecdotes[selected]}</p>
-      <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text="Random anecdotes" />
+      <Button handleClick={() => {setSelected(Math.floor(Math.random() * anecdotes.length)); setIsShown(s => !s)}} text="Random anecdotes" />
+      <p style={{display: isShown ? 'none' : 'block'}}>{anecdotes[selected]}</p>
     </div>
   )
 }
