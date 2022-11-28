@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import NewPerson from './components/NewPerson'
 import Persons from './components/Persons'
+import Search from './components/Search'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newSearch, setNewSearch] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -18,6 +19,8 @@ const App = () => {
       alert(personObject.name + " is already added to the phonebook")
     } else if (persons.filter(person => person.number === personObject.number).length > 0) {
       alert(personObject.number + " is already added to the phonebook")
+    } else if (personObject.number < 0) {
+      alert("dumbass you thought");
     } else {
       console.log("New person is not already added")     
       setPersons(persons.concat(personObject))
@@ -32,10 +35,17 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
+  const handleSearch = (event) => {
+    setNewSearch(event.target.value)
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Search
+        newSearch={newSearch} handleSearch={handleSearch}
+      />
+      <h2>Add a new</h2>
       <NewPerson newName={newName}
         newNumber={newNumber}
         handleNameChange={handleNameChange}
