@@ -8,16 +8,19 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    console.log("joo");
-    
     const personObject = {
       name: newName
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    if (persons.filter(person => person.name === personObject.name).length > 0) {
+      alert(personObject.name + " is already added to the phonebook")
+    } else {
+      console.log("New person is not already added")     
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
   }
+    
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
@@ -26,10 +29,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson} >
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
+          Name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
-          <button type="submit">add</button>
+          <button type="submit">Add</button>
         </div>
       </form>
       <h2>Numbers</h2>
