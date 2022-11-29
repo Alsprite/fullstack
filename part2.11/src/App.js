@@ -3,6 +3,7 @@ import axios from 'axios'
 import NewPerson from './components/NewPerson'
 import Persons from './components/Persons'
 import Search from './components/Search'
+import Server from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,12 +12,9 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    Server
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
-        console.log(response.data)
         setPersons(response.data)
       })
   }, [])
@@ -34,10 +32,11 @@ const App = () => {
     } else if (personObject.number < 0) {
       alert("dumbass you thought");
     } else {
-      axios
-      .post('http://localhost:3001/persons', personObject)
+      Server
+      .create(personObject)
       .then(response => {
-        console.log(response)
+        setPersons(persons.concat(response.data))
+        setNewName('')
       })
       console.log("New person is not already added")     
       setPersons(persons.concat(personObject))
