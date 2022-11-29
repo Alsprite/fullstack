@@ -4,8 +4,11 @@ const Search = (props) => {
     return (
         <div>
             <form>
-                Filter shown with
-                <input value={props.newSearch} onChange={props.handleSearch} />
+                <ul>
+                    Filter shown with
+                <input value={props.newSearch} onChange={props.handleSearch}/>
+                </ul>
+                
             </form>
         </div>
     )
