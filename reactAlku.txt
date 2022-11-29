@@ -1,0 +1,24 @@
+!!!Uuden React-sovelluksen luominen!!!:
+
+npx create-react-app {NIMI}
+cd {NIMI}
+npm start
+
+!!!index.js sisällöksi!!!:
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+import App from './App'
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+
+!!!App.js sisällöksi!!!:
+const App = () => (
+  <div>
+    <p>Hello world</p>
+  </div>
+)
+
+export default App
+
+!!!Tiedostot App.css, App.test.js, index.css, logo.svg, reportWebVitals.js ja setupTests.js voi poistaa.!!!
