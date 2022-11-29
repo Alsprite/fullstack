@@ -34,6 +34,11 @@ const App = () => {
     } else if (personObject.number < 0) {
       alert("dumbass you thought");
     } else {
+      axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        console.log(response)
+      })
       console.log("New person is not already added")     
       setPersons(persons.concat(personObject))
       setNewName('')
