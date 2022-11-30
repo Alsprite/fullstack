@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import NewPerson from './components/NewPerson'
 import Persons from './components/Persons'
 import Search from './components/Search'
@@ -12,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState("");
   const [errorMessage, setErrorMessage] = useState(null)
-
+  
   useEffect(() => {
     Server
       .getAll()
@@ -32,7 +31,7 @@ const App = () => {
     } else if (persons.filter(person => person.number === personObject.number).length > 0) {
       setErrorMessage("Number " + personObject.number + " has already been added to the phonebook")
     } else if (personObject.number < 0) {
-      setErrorMessage("Area code can't be negative")
+      setErrorMessage("Area code cannot be negative")
     } else {
       setErrorMessage(null)
       Server
