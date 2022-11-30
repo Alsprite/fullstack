@@ -4,12 +4,14 @@ import NewPerson from './components/NewPerson'
 import Persons from './components/Persons'
 import Search from './components/Search'
 import Server from './services/persons'
+import Errors from './components/Error'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     Server
@@ -26,12 +28,13 @@ const App = () => {
       number: newNumber
     }
     if (persons.filter(person => person.name === personObject.name).length > 0) {
-      alert(personObject.name + " is already added to the phonebook")
+      setErrorMessage("Name " + personObject.name + " has already been added to the phonebook")
     } else if (persons.filter(person => person.number === personObject.number).length > 0) {
-      alert(personObject.number + " is already added to the phonebook")
+      setErrorMessage("Number " + personObject.number + " has already been added to the phonebook")
     } else if (personObject.number < 0) {
-      alert("dumbass you thought");
+      setErrorMessage("Area code can't be negative")
     } else {
+      setErrorMessage(null)
       Server
       .create(personObject)
       .then(response => {
@@ -40,6 +43,7 @@ const App = () => {
       })
       console.log("New person is not already added")     
       setPersons(persons.concat(personObject))
+      setErrorMessage(`${personObject.name} has been added`)
       setNewName('')
       setNewNumber('')
     }
@@ -61,7 +65,7 @@ const App = () => {
         .deleteName(id)
         .then(() => {
           setPersons(persons.filter(n => n.id !== id));
-          alert(`${name} was deleted`)
+          setErrorMessage(`${name} has been deleted`)
           setNewName("");
           setNewNumber("");
         })
@@ -72,6 +76,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Errors message={errorMessage} />
       <Search
         newSearch={newSearch} handleSearch={handleSearch}
       />
