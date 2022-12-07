@@ -30,6 +30,10 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
+app.get('/api/info', (req, res) => {
+  res.send(`<h3>Phonebook has info for ${persons.length} persons <br> ${Date()} </h3>`)
+})
+
 const generateId = () => {
   const maxId = persons.length > 0
     ? Math.max(...persons.map(n => n.id))
@@ -48,7 +52,7 @@ app.post('/api/persons', (request, response) => {
 
   const person = {
     name: body.name,
-    number: new Date(),
+    date: new Date(),
     id: generateId(),
   }
 
