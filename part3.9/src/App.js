@@ -40,6 +40,10 @@ const App = () => {
         setPersons(persons.concat(response.data))
         setNewName('')
       })
+      .catch(error => {
+        setErrorMessage(`${error.response.data.error}`);
+        console.log(error.response.data);
+      });
       console.log("New person is not already added")     
       setPersons(persons.concat(personObject))
       setErrorMessage(`${personObject.name} has been added`)
