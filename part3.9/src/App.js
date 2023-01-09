@@ -12,13 +12,7 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
   const [errorMessage, setErrorMessage] = useState(null)
   
-  useEffect(() => {
-    Server
-      .getAll()
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -39,16 +33,12 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response.data))
         setNewName('')
+        setNewNumber('')
       })
       .catch(error => {
-        setErrorMessage(`${error.response.data.error}`);
+        setErrorMessage(error.response.data.error);
         console.log(error.response.data);
       });
-      console.log("New person is not already added")     
-      setPersons(persons.concat(personObject))
-      setErrorMessage(`${personObject.name} has been added`)
-      setNewName('')
-      setNewNumber('')
     }
   }
     
@@ -75,6 +65,14 @@ const App = () => {
       }
     }
   }
+
+    useEffect(() => {
+    Server
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   return (
     <div>
