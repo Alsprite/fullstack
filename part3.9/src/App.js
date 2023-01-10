@@ -12,7 +12,13 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
   const [errorMessage, setErrorMessage] = useState(null)
   
-
+useEffect(() => {
+    Server
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -65,14 +71,6 @@ const App = () => {
       }
     }
   }
-
-    useEffect(() => {
-    Server
-      .getAll()
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
 
   return (
     <div>
