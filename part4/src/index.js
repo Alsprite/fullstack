@@ -1,6 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+const app = require('./app') // varsinainen Express-sovellus
+const http = require('http')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
-import App from './App'
+const server = http.createServer(app)
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+server.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
+})
