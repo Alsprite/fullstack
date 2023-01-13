@@ -12,7 +12,14 @@ const blogSchema = mongoose.Schema({
   url: String,
   likes: Number
 })
-
+blogSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+    delete returnedObject.id
+  }
+})
 const Blog = mongoose.model('Blog', blogSchema)
 mongoose.set('strictQuery', true)
 const mongoUrl = process.env.MONGODB_URI
@@ -31,7 +38,7 @@ app.get('/api/blogs', (request, response) => {
 
 app.post('/api/blogs', (request, response) => {
   const blog = new Blog(request.body)
-
+  console.log(blog);
   blog
     .save()
     .then(result => {
