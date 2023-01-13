@@ -1,7 +1,7 @@
 const http = require('http')
 const express = require('express')
-const dotenv =  require("dotenv")
-dotenv.config({ path: './config.env'});
+const dotenv =  require('dotenv')
+dotenv.config({ path: './config.env' })
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -14,9 +14,8 @@ const blogSchema = mongoose.Schema({
 })
 
 const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = `mongodb+srv://${password}@cluster0.w5oruqa.mongodb.net/?retryWrites=true&w=majority`
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', true)
+const mongoUrl = process.env.MONGODB_URI
 mongoose.connect(mongoUrl)
 
 app.use(cors())
