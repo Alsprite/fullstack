@@ -77,9 +77,8 @@ describe('deletion of a blog', () => {
 
     const contents = blogsAtEnd.map(r => r.content)
 
-    expect(contents).not.toContain(blogToDelete.content)
+    expect(contents).not.toContain(blogToDelete)
   })
-
 afterAll(() => {
   mongoose.connection.close()
 })
