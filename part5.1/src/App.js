@@ -34,6 +34,19 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
       setUser(null)
   }
+  const newBlog = async event => {
+    event.preventDefault()
+    const newB = {
+      user: user,
+      title: document.forms["blog"]["title"].value,
+      author: document.forms["blog"]["author"].value,
+      url: document.forms["blog"]["url"].value
+    }
+    const auth = user.token
+      blogService.create(newB, auth).then(blog => {
+        setBlogs(blogs.concat(blog))
+    })
+  }
   if (user === null) {
     return (
       <div>
@@ -52,6 +65,18 @@ const App = () => {
       <h2>blogs</h2>
       <p>{user.username} logged in</p>
       <button onClick={handleLogOut}>Log out</button>
+      <h2>create new</h2>
+      <form name="blog">
+        <label>Title:</label>
+        <input type="text" name="title" ></input>
+        <br></br>
+        <label>Author:</label>
+        <input type="text" name="author" ></input>
+        <br></br>
+        <label>Url:</label>
+        <input type="text" name="url" ></input>
+      </form>
+      <button type="submit" onClick={newBlog}>Create</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
