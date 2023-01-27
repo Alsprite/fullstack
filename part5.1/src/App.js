@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
@@ -50,23 +51,17 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
       setUser(null)
   }
-  const newBlog = async event => {
-    event.preventDefault()
+  const addBlog = (blogObject) => {
+    const auth = user.token
     try {
-        const newB = {
-        user: user,
-        title: document.forms["blog"]["title"].value,
-        author: document.forms["blog"]["author"].value,
-        url: document.forms["blog"]["url"].value
-      }
-        const auth = user.token
-        blogService.create(newB, auth).then(blog => {
-        setBlogs(blogs.concat(blog))
-        setMessage(`A new blog ${newB.title} by ${newB.author} added`)
-    })
+      blogService.create(blogObject, auth).then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        blogFormRef.current.toggleVisibility()
+        setMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`)
+      })
     } catch (exception) {
-      setMessage("error" + exception.response.data.error);
-    }
+        setMessage("error" + exception.response.data.error);
+      }
   }
   if (user === null) {
     return (
@@ -90,19 +85,7 @@ const App = () => {
       <p>{user.username} logged in</p>
       <button onClick={handleLogOut}>Log out</button>
       <Togglable buttonLabel="New blog" ref={blogFormRef}>
-      <h2>create new</h2>
-      <form name="blog">
-        <label>Title:</label>
-        <input type="text" name="title" ></input>
-        <br></br>
-        <label>Author:</label>
-        <input type="text" name="author" ></input>
-        <br></br>
-        <label>Url:</label>
-        <input type="text" name="url" ></input>
-      </form>
-      <button type="submit" onClick={newBlog}>Create</button>
-      <br></br>
+      <BlogForm createBlog={addBlog}></BlogForm>
       </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
