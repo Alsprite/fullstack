@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null);
+  const blogFormRef = useRef()
 
   useEffect(() => {
   const alreadyUser = window.localStorage.getItem('loggedUser')
@@ -87,6 +89,7 @@ const App = () => {
       <Notification message={message} />
       <p>{user.username} logged in</p>
       <button onClick={handleLogOut}>Log out</button>
+      <Togglable buttonLabel="New blog" ref={blogFormRef}>
       <h2>create new</h2>
       <form name="blog">
         <label>Title:</label>
@@ -99,6 +102,8 @@ const App = () => {
         <input type="text" name="url" ></input>
       </form>
       <button type="submit" onClick={newBlog}>Create</button>
+      <br></br>
+      </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
