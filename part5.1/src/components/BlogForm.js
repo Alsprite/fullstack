@@ -30,7 +30,6 @@ const BlogForm = ({ createBlog }, props) => {
         <input type="text" name="url" ></input>
         <br></br>
         <button type="submit" onClick={addBlog}>Create</button>
-        {/* <input value={newBlog} onChange={event => setNewBlog(event.target.value)}/> */}
         <br></br>
       </form>
     </div>
