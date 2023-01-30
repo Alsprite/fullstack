@@ -31,7 +31,7 @@ const remove = (id, auth) => {
   setToken(auth)
   const authoriz = { headers: { Authorization: token } }
 
-  console.log('auht', auth)
+  console.log('auth', auth)
   console.log('config', config)
 
   const request = axios.delete(`${baseUrl}/${id}`, authoriz)
