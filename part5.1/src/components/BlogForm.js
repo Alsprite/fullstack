@@ -1,15 +1,12 @@
-import { useState } from 'react'
-
 const BlogForm = ({ createBlog }, props) => {
-  const [ setNewBlog ] = useState('')
 
   const addBlog = (event) => {
     event.preventDefault()
     createBlog({
-        user: props.user,
-        title: document.forms["blog"]["title"].value,
-        author: document.forms["blog"]["author"].value,
-        url: document.forms["blog"]["url"].value
+      user: props.user,
+      title: document.forms['blog']['title'].value,
+      author: document.forms['blog']['author'].value,
+      url: document.forms['blog']['url'].value
     })
   }
 
