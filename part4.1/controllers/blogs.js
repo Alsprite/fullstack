@@ -43,9 +43,13 @@ blogsRouter.post('/', async (request, response) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes,
+    likes: body.likes || 0,
     user: user._id
   })
+
+  if (blog.likes === null) {
+    blog.likes = 0
+  }
 
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
