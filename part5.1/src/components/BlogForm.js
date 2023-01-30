@@ -11,8 +11,6 @@ const BlogForm = ({ createBlog }, props) => {
         author: document.forms["blog"]["author"].value,
         url: document.forms["blog"]["url"].value
     })
-
-    setNewBlog('')
   }
 
   return (
