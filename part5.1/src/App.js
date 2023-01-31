@@ -84,16 +84,16 @@ const App = () => {
         <p>{user.username} logged in</p>
         <button onClick={handleLogOut}>Log out</button>
         <Togglable buttonLabel="New blog" ref={blogFormRef}>
-          <BlogForm createBlog={addBlog}></BlogForm>
+        <BlogForm createBlog={addBlog}></BlogForm>
         </Togglable>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>
+        {blogs.sort((a, b) => b.likes - a.likes).map((blog) => (
+            <Blog key={blog.id} blog={blog}></Blog>
+            )
+        )
+    }
+    </div>
     )
   }
-
-
 }
 
 export default App
