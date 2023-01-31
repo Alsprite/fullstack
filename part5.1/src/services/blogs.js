@@ -11,7 +11,6 @@ const config = { headers: { Authorization: token } }
 
 const getAll = async () => {
   const request = await axios.get(baseUrl)
-  request.data.sort()
   return request.data
 }
 
