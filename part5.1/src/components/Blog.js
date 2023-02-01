@@ -1,7 +1,7 @@
-import blogService from '../services/blogs'
+import blogService from '../services/blogs.js'
 import { useState } from 'react'
 const Blog = ({ blog }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
   const addLike = async event => {
     event.preventDefault()
     const likes = blog.likes + 1
@@ -14,21 +14,21 @@ const Blog = ({ blog }) => {
     }
   }
   const toggleVisibility = () => {
-    setVisible(!visible);
+    setVisible(!visible)
   }
   return (
     <div>
       <div>
-      <h3>{blog.title} by {blog.author} <button id="view-btn" onClick={toggleVisibility}> {visible ? "hide" : "show"} </button></h3>
+        <h3>{blog.title} by {blog.author} <button id="view-btn" onClick={toggleVisibility}> {visible ? 'hide' : 'show'} </button></h3>
       </div>
       {visible && (
         <div>
-        <h4>Url: {blog.url} </h4>
-        <h4>Likes: {blog.likes} <button type="submit" onClick={addLike}>Like</button></h4>
-        <button type="submit" onClick={handleDelete}>Delete</button>
+          <h4>Url: {blog.url} </h4>
+          <h4>Likes: {blog.likes} <button type="submit" onClick={addLike}>Like</button></h4>
+          <button type="submit" onClick={handleDelete}>Delete</button>
         </div>
       )}
-      </div>
+    </div>
   )
 }
 

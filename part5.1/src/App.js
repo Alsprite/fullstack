@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
-import blogService from './services/blogs'
+import BlogForm from './components/BlogForm.js'
+import blogService from './services/blogs.js'
 import loginService from './services/login'
-import Notification from './components/Notification'
-import Togglable from './components/Togglable'
+import Notification from './components/Notification.js'
+import Togglable from './components/Togglable.js'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -84,14 +84,14 @@ const App = () => {
         <p>{user.username} logged in</p>
         <button onClick={handleLogOut}>Log out</button>
         <Togglable buttonLabel="New blog" ref={blogFormRef}>
-        <BlogForm createBlog={addBlog}></BlogForm>
+          <BlogForm createBlog={addBlog}></BlogForm>
         </Togglable>
         {blogs.sort((a, b) => b.likes - a.likes).map((blog) => (
-            <Blog key={blog.id} blog={blog}></Blog>
-            )
+          <Blog key={blog.id} blog={blog}></Blog>
         )
-    }
-    </div>
+        )
+        }
+      </div>
     )
   }
 }
