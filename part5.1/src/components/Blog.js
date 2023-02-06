@@ -24,7 +24,7 @@ const Blog = ({ blog }) => {
       {visible && (
         <div>
           <h4>Url: {blog.url} </h4>
-          <h4>Likes: {blog.likes} <button type="submit" onClick={addLike}>Like</button></h4>
+          <h4>Likes: {blog.likes} <button id="like-btn" onClick={addLike}>Like</button></h4>
           <button type="submit" onClick={handleDelete}>Delete</button>
         </div>
       )}
