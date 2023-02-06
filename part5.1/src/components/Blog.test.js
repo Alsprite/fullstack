@@ -11,7 +11,7 @@ test('renders title', () => {
     likes: '2'
   }
 
-  render(<Blog note={blog} />)
+  render(<Blog blog={blog} />)
 
   const element = screen.getByText('Meika')
   expect(element).toBeDefined()
