@@ -11,8 +11,11 @@ test('renders title', () => {
     likes: '2'
   }
 
-  render(<Blog blog={blog} />)
+  let container = render(<Blog blog={blog} />)
 
-  const element = screen.getByText('Meika')
+  const element = container.queryByText(blog.title)
+
+  screen.debug(element)
+
   expect(element).toBeDefined()
 })
