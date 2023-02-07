@@ -13,33 +13,35 @@ describe('<Blog />', () => {
     user: {
       username: 'kayttajanimi',
       name: 'nimi'
-    }
+    },
+    id: "63d8b87420b931ef15b0b851"
   }
   const mockHandler = jest.fn()
   let component
   beforeEach(() => {
-    component = render(<Blog blog={blog} btn={mockHandler} />)
+    // eslint-disable-next-line testing-library/no-render-in-setup
+    component = render(<Blog blog={blog} addLike={mockHandler} />)
   })
 
   test('renders title', () => {
     screen.queryByText(blog.title)
   })
-  test('renders url, likes and user', async () => {
+  test('renders details', async () => {
     const user = userEvent.setup()
     const button = screen.queryByText('show')
     await user.click(button)
 
-    const div = component.container.querySelector('#extra')
-    expect(div).not.toHaveStyle('display: none')
+    const blogDetails = component.container.querySelector("#extra");
+    expect(blogDetails).toBeInTheDocument();
   })
-//   test('when like button is clicked twice it calls the function twice', async () => {
-//     const user = userEvent.setup()
-//     let view = screen.getByText('show')
-//     await user.click(view)
-//     let like = screen.getByText('Like')
-//     await user.click(like)
-//     await user.click(like)
-
-//     expect(mockHandler.mock.calls).toHaveLength(2)
-//   })
+  // test('when like button is clicked twice it calls the function twice', async () => {
+  //   const user = userEvent.setup()
+  //   const view = screen.queryByText('show')
+  //   await user.click(view)
+  //   const like = screen.queryByText('Like')
+  //   await user.click(like)
+  //   await user.click(like)
+    
+  //   expect(mockHandler.mock.calls).toHaveLength(2)
+  // })
 })
