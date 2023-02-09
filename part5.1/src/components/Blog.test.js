@@ -19,6 +19,7 @@ describe('<Blog />', () => {
   const mockHandler = jest.fn()
   let component
   beforeEach(() => {
+    // eslint-disable-next-line testing-library/no-render-in-setup
     component = render(<Blog blog={blog} addLike={mockHandler} />)
   })
 
@@ -30,6 +31,7 @@ describe('<Blog />', () => {
     const button = screen.queryByText('show')
     await user.click(button)
 
+    // eslint-disable-next-line testing-library/no-node-access
     const blogDetails = component.container.querySelector('#extra')
     expect(blogDetails).toBeInTheDocument()
   })
