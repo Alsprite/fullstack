@@ -7,6 +7,7 @@ describe('Blog app', function() {
       username: "Superuser",
       password: "salainen"
     }
+    // cy.request('POST', 'http://localhost:3003/api/users', user)
     cy.visit('http://localhost:3000')
   })
 
@@ -27,6 +28,22 @@ describe('Blog app', function() {
       cy.get('#passid').type('lmao')
       cy.get('#login-btn').click()
       cy.contains('invalid username or password')
+    })
+  })
+  describe('when logged in', function() {
+    beforeEach(function() {
+      cy.get('#nameid').type('root')
+      cy.get('#passid').type('salainen')
+      cy.get('#login-btn').click()
+    })
+
+    it('a new note can be created', function() {
+      cy.contains('New blog').click()
+      cy.get('#title').type('a note created by cypress')
+      cy.get('#author').type('cypress gaming')
+      cy.get('#url').type('cypress.com')
+      cy.contains('Create').click()
+      cy.contains('a note created by cypress')
     })
   })
 })
