@@ -69,11 +69,11 @@ const App = () => {
         <Notification message={message}></Notification>
         <form name="log" onSubmit={handleLogin}>
           <p>Username</p>
-          <input type="text" name="nimi" onChange={console.log('jee')} ></input>
+          <input type="text" name="nimi" id="nameid" onChange={console.log('jee')} ></input>
           <p>Password</p>
-          <input type="password" name="pass" onChange={console.log('joo')} ></input>
+          <input type="password" name="pass" id="passid" onChange={console.log('joo')} ></input>
         </form>
-        <button type="submit" onClick={handleLogin}>Log in</button>
+        <button type="submit" id="login-btn" onClick={handleLogin}>Log in</button>
       </div>
     )
   } else {
