@@ -11,22 +11,25 @@
         "react-dom": "^18.2.0",
         "react-scripts": "5.0.1",
         "web-vitals": "^2.1.4"
-      },
+    },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "server": "json-server -p3001 --watch db.json"
-      },
+    },
     "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Alsprite/fullstack.git"
+        "type": "git",
+        "url": "git+https://github.com/Alsprite/fullstack.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-    "url": "https://github.com/Alsprite/fullstack/issues"
+        "url": "https://github.com/Alsprite/fullstack/issues"
     },
-    "homepage": "https://github.com/Alsprite/fullstack#readme"
-    } 
+    "homepage": "https://github.com/Alsprite/fullstack#readme",
+    "devDependencies": {
+        "cypress": "^12.5.1"
+    }
+}
