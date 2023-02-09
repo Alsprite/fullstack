@@ -1,5 +1,5 @@
 const BlogForm = ({ createBlog }, props) => {
-
+  
   const addBlog = (event) => {
     event.preventDefault()
     createBlog({
@@ -14,17 +14,17 @@ const BlogForm = ({ createBlog }, props) => {
     <div>
       <h2>Create a new blog</h2>
 
-      <form name="blog">
+      <form name="blog" onSubmit={addBlog}>
         <label>Title:</label>
-        <input type="text" name="title" ></input>
+        <input type="text" name="title" id="title" ></input>
         <br></br>
         <label>Author:</label>
-        <input type="text" name="author" ></input>
+        <input type="text" name="author" id="author" ></input>
         <br></br>
         <label>Url:</label>
-        <input type="text" name="url" ></input>
+        <input type="text" name="url" id="url" ></input>
         <br></br>
-        <button type="submit" onClick={addBlog}>Create</button>
+        <button type="submit">Create</button>
         <br></br>
       </form>
     </div>
