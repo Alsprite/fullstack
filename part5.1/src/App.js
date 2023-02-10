@@ -9,6 +9,8 @@ import Togglable from './components/Togglable.js'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null)
   const blogFormRef = useRef()
 
@@ -32,8 +34,8 @@ const App = () => {
   const handleLogin = async event => {
     event.preventDefault()
     try {
-      let uid = document.forms['log']['nimi'].value
-      let pas = document.forms['log']['pass'].value
+      let uid = username
+      let pas = password
       const user = await loginService.login({
         username: uid,
         password: pas
@@ -69,9 +71,9 @@ const App = () => {
         <Notification message={message}></Notification>
         <form name="log" onSubmit={handleLogin}>
           <p>Username</p>
-          <input type="text" name="nimi" id="nameid" onChange={console.log('jee')} ></input>
+          <input type="text" name="nimi" id="nameid" value={username} onChange={({ target }) => setUsername(target.value)} ></input>
           <p>Password</p>
-          <input type="password" name="pass" id="passid" onChange={console.log('joo')} ></input>
+          <input type="password" name="pass" id="passid" value={password} onChange={({ target }) => setPassword(target.value)} ></input>
         </form>
         <button type="submit" id="login-btn" onClick={handleLogin}>Log in</button>
       </div>
@@ -81,7 +83,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         <Notification message={message} />
-        <p>{user.username} logged in</p>
+        <p>{user.name} logged in</p>
         <button onClick={handleLogOut}>Log out</button>
         <Togglable buttonLabel="New blog" ref={blogFormRef}>
           <BlogForm createBlog={addBlog}></BlogForm>
