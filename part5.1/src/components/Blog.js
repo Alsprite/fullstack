@@ -1,6 +1,7 @@
 import blogService from '../services/blogs.js'
 import { useState } from 'react'
-const Blog = ({ blog, username }) => {
+const Blog = ({ blog }) => {
+  const username = "root"
   const [visible, setVisible] = useState(false)
   const addLike = async event => {
     event.preventDefault()
