@@ -71,5 +71,21 @@ describe('Blog app', function() {
           cy.on('window:confirm', () => true);
           cy.get('html').should('not.contain', 'a note created by cypress gaming')
         })
+        it('only the creator can see the delete button', function() {
+          cy.contains('New blog').click()
+          cy.get('#title').type('a note created')
+          cy.get('#author').type('cypress gaming')
+          cy.get('#url').type('cypress.com')
+          cy.contains('Create').click()
+          cy.contains('a note created by cypress gaming')
+
+          cy.contains('Log out').click()
+          cy.get('#nameid').type('matti')
+          cy.get('#passid').type('1234')
+          cy.get('#login-btn').click()
+
+          cy.contains('show').click()
+          cy.get('html').should('not.contain', 'Delete')
+        })
   })
 })
