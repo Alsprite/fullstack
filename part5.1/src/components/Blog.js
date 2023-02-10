@@ -1,13 +1,13 @@
 import blogService from '../services/blogs.js'
 import { useState } from 'react'
 const Blog = ({ blog }) => {
-  const loggedUser = JSON.parse(localStorage.getItem('loggedUser'))
-  console.log(loggedUser.username)
   const [visible, setVisible] = useState(false)
+  const loggedUser = JSON.parse(localStorage.getItem('loggedUser'))
+
   const addLike = async event => {
     event.preventDefault()
     const likes = blog.likes + 1
-    const newBlog = { ...blog, likes }
+    const newBlog = { blog, likes }
     await blogService.update(blog.id, newBlog)
   }
   const handleDelete = () => {
