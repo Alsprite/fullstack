@@ -1,7 +1,8 @@
 import blogService from '../services/blogs.js'
 import { useState } from 'react'
 const Blog = ({ blog }) => {
-  const username = "root"
+  const loggedUser = JSON.parse(localStorage.getItem('loggedUser'))
+  console.log(loggedUser.username)
   const [visible, setVisible] = useState(false)
   const addLike = async event => {
     event.preventDefault()
@@ -27,7 +28,7 @@ const Blog = ({ blog }) => {
           <h4>Url: {blog.url} </h4>
           <h4>Likes: {blog.likes} <button id="like-btn" onClick={addLike}>Like</button></h4>
           <h4>Added by: {blog.user.name}</h4>
-          {blog.user.username === username && (
+          {blog.user.username === loggedUser.username && (
             <button id="delete-btn" onClick={handleDelete}>Delete</button>
           )}
         </div>
