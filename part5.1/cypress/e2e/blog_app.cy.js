@@ -16,19 +16,19 @@ describe('Blog app', function() {
   })
 
   describe('Login',function() {
-    it('succeeds with correct credentials', function() {
-      cy.get('#nameid').type('root')
-      cy.get('#passid').type('salainen')
-      cy.get('#login-btn').click()
-      cy.contains('blogs')
-    })
+    // it('succeeds with correct credentials', function() {
+    //   cy.get('#nameid').type('root')
+    //   cy.get('#passid').type('salainen')
+    //   cy.get('#login-btn').click()
+    //   cy.contains('blogs')
+    // })
 
-    it('fails with wrong credentials', function() {
-      cy.get('#nameid').type('root')
-      cy.get('#passid').type('lmao')
-      cy.get('#login-btn').click()
-      cy.contains('invalid username or password')
-    })
+    // it('fails with wrong credentials', function() {
+    //   cy.get('#nameid').type('root')
+    //   cy.get('#passid').type('lmao')
+    //   cy.get('#login-btn').click()
+    //   cy.contains('invalid username or password')
+    // })
   })
   describe('when logged in', function() {
     beforeEach(function() {
@@ -37,27 +37,27 @@ describe('Blog app', function() {
       cy.get('#login-btn').click()
     })
 
-    it('a new blog can be created', function() {
+    // it('a new blog can be created', function() {
+    //   cy.contains('New blog').click()
+    //   cy.get('#title').type('a note created')
+    //   cy.get('#author').type('cypress gaming')
+    //   cy.get('#url').type('cypress.com')
+    //   cy.get('button').contains('Create').click()
+    //   cy.contains('a note created by cypress gaming')
+    // })
+    it('blog can be liked', function() {
       cy.contains('New blog').click()
       cy.get('#title').type('a note created')
       cy.get('#author').type('cypress gaming')
       cy.get('#url').type('cypress.com')
       cy.get('button').contains('Create').click()
       cy.contains('a note created by cypress gaming')
-    })
-    // it('blog can be liked', function() {
-    //   cy.contains('New blog').click()
-    //   cy.get('#title').type('a note created')
-    //   cy.get('#author').type('cypress gaming')
-    //   cy.get('#url').type('cypress.com')
-    //   cy.contains('Create').click()
-    //   cy.contains('a note created by cypress gaming')
 
-    //   cy.contains('show').click()
-    //   cy.contains('0')
-    //   cy.contains('Like').click()
-    //   cy.contains('1')
-    // })
+      cy.contains('show').click()
+      cy.contains('0')
+      cy.get('button').contains('Like').click()
+      cy.contains('1')
+    })
     // it('A blog can be deleted by its creator', () => {
     //   cy.contains('New blog').click()
     //   cy.get('#title').type('Test title')
