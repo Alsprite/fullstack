@@ -21,7 +21,7 @@ const Blog = ({ blog }) => {
   return (
     <div>
       <div>
-      <h3>{blog.title} by {blog.author} <button id="view-btn" onClick={toggleVisibility}> {visible ? 'hide' : 'show'} </button></h3>
+        <h3>{blog.title} by {blog.author} <button id="view-btn" onClick={toggleVisibility}> {visible ? 'hide' : 'show'} </button></h3>
       </div>
       {visible && (
         <div id="extra">

@@ -1,5 +1,4 @@
 const BlogForm = ({ createBlog }, props) => {
-  
   const addBlog = (event) => {
     event.preventDefault()
     createBlog({
