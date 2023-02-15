@@ -20,7 +20,7 @@ const Blog = ({ blog }) => {
   }
   return (
     <div>
-      <div>
+      <div id={blog.title}>
         <h3>{blog.title} by {blog.author} <button id="view-btn" onClick={toggleVisibility}> {visible ? 'hide' : 'show'} </button></h3>
       </div>
       {visible && (
