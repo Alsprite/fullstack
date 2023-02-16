@@ -9,6 +9,7 @@ describe('unicafe reducer', () => {
   }
 
   test('should return a proper initial state when called with undefined state', () => {
+    // eslint-disable-next-line no-unused-vars
     const state = {}
     const action = {
       type: 'DO_NOTHING'
