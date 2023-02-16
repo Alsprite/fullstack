@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { configureStore } from "redux";
-import reducer from "./reducer";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { createStore } from "redux"
+import reducer from "./reducer"
 
-const store = configureStore(reducer);
+const store = createStore(reducer);
 
 const App = () => {
   const handleClick = (type) => {
-    store.dispatch({ type });
+    store.dispatch({ type })
   };
 
   return (
@@ -20,13 +20,13 @@ const App = () => {
       <div>ok {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
     </div>
-  );
-};
+  )
+}
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"))
 const renderApp = () => {
-  root.render(<App />);
-};
+  root.render(<App />)
+}
 
-renderApp();
-store.subscribe(renderApp);
+renderApp()
+store.subscribe(renderApp)
