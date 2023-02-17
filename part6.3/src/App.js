@@ -15,7 +15,7 @@ const App = () => {
     event.target.anecdote.value = "";
     dispatch(createAnecdote(content))
   }
-
+  //6.5
   const sorter = (a, b) => b.votes - a.votes
   
   return (
