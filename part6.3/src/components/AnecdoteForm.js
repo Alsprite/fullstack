@@ -13,10 +13,9 @@ const New = () => {
     
     return (
         <div>
-            <h2>create new</h2>
+            <h2>Create new</h2>
             <form onSubmit={newAnecdote}>
-                <div><input name="anecdote" /></div>
-                <button type="submit" >create</button>
+                <div><input name="anecdote"/><button type="submit">Create</button></div>
             </form>
         </div>
     )
