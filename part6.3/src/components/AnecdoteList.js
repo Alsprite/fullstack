@@ -2,14 +2,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Anecdote = () => {
   const anecdotes = useSelector(state => {
-    if (state.filter === '') {
+    if (state.filter.filter === undefined) {
+      console.log(state.filter.filter)
       return state
     } else {
       console.log("joo")
-    }
-  })
+  }})
+
   const dispatch = useDispatch()
-    
+
   const vote = (type, id) => {
     console.log(id)
     dispatch({ type, id })
