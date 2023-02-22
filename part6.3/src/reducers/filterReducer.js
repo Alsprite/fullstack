@@ -7,11 +7,12 @@ const filterReducer = (state = '', action) => {
   }
 };
 
-export const setFilter = (filter) => {
+const setFilter = (filter) => {
   return {
     type: 'SET_FILTER',
     filter,
   };
 };
 
+export { setFilter };
 export default filterReducer;
