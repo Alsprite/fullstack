@@ -13,7 +13,7 @@ const Anecdote = () => {
 
   const dispatch = useDispatch()
 
-  const init = (anecdote) => {
+  const voteClick = (anecdote) => {
     dispatch(vote(anecdote.id))
     dispatch(initialization(`You voted ${anecdote.content}`, 5000))
   }
@@ -30,7 +30,7 @@ const Anecdote = () => {
         <div>
         Votes: {anecdote.votes}
         <br></br>
-        <button onClick={() => init(anecdote)}>Vote</button>
+        <button onClick={() => voteClick(anecdote)}>Vote</button>
         </div>
         </div>
       )}
