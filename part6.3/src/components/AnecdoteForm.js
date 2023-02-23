@@ -3,12 +3,12 @@ import { createAnecdote } from '../reducers/anecdoteReducer'
 
 const New = () => {
     const dispatch = useDispatch()
-
+    
     const newAnecdote = (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
         event.target.anecdote.value = "";
-        dispatch(createAnecdote(content))
+        dispatch(createAnecdote({ content }))
       }
     
     return (
