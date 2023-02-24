@@ -13,7 +13,7 @@ const anecdoteSlice = createSlice({
       );
     },
     appendAnecdote(state, action) {
-      return state.push(action.payload)
+      return [...state, action.payload]
     },
     setAnecdote(state, action) {
       return action.payload
