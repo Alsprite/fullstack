@@ -14,9 +14,8 @@ const notificationSlice = createSlice({
 let timeout = null
 
 export const initialization = (message, delay) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(newNotification(message))
-  
 
     timeout = setTimeout(() => dispatch(newNotification(null)), delay);
 
