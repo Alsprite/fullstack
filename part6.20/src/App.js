@@ -1,12 +1,43 @@
+import { useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getAnecdotes, createAnecdote, updateAnecdote } from './requests'
+import Notification from './components/Notification'
+import { useReducer } from 'react'
+import messageContext from './Context'
+
+const counterMessage = (state, action) => {
+  switch (action.type) {
+    case 'LIKE':
+      console.log(action.type)
+      return `Anecdote '${action.name}' voted`
+    case 'CREATE':
+      console.log(action.type)
+      return `Anecdote '${action.name}' created`
+    case 'CLEAR':
+      return null
+    default: 
+    return state
+  }
+}
 
 const App = () => {
+  const [message, counterDispatch] = useReducer(counterMessage, null)
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        counterDispatch({type: 'CLEAR'})
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [message])
+
   const queryClient = useQueryClient()
 
   const newAnecdoteMutation = useMutation(createAnecdote, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries('anecdotes')
+      counterDispatch({type: 'CREATE', name: data.content})
     }
   })
 
@@ -41,8 +72,10 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h2>Anecdotes</h2>
+    <messageContext.Provider value={[message, counterDispatch]}>
+      <h2>Anecdote App</h2>
+      <Notification />
+      <h4>Create new</h4>
       <form onSubmit={addAnecdote}>
         <input name="anecdote" />
         <button type="submit">Create</button>
@@ -54,11 +87,11 @@ const App = () => {
             <br></br>
             {anecdote.content}
             <p>Votes: {anecdote.votes}</p>
-            <button onClick={() => voteAnecdote(anecdote.id, anecdote.votes)}>Vote</button>
+            <button onClick={() => {voteAnecdote(anecdote.id, anecdote.votes); counterDispatch({type: 'LIKE', name: anecdote.content})}}>Vote</button>
           </div>
           </div>
         )}
-    </div>
+    </messageContext.Provider>
   )
 }
 
