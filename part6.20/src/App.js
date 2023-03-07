@@ -13,6 +13,9 @@ const counterMessage = (state, action) => {
     case 'CREATE':
       console.log(action.type)
       return `Anecdote '${action.name}' created`
+    case 'SHORT':
+      console.log(action.type)
+      return 'Too short anecdote, must have more than 5 letters'
     case 'CLEAR':
       return null
     default: 
@@ -62,6 +65,9 @@ const App = () => {
   const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
+    if (content.length < 5) {
+      counterDispatch({type: 'SHORT'})
+    }
     event.target.anecdote.value = ''
     newAnecdoteMutation.mutate({content})
   }
