@@ -59,6 +59,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -143,7 +144,7 @@ const App = () => {
         </div>
         <Routes>
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />}/>
-          <Route path="/createnew" element={<CreateNew />} />
+          <Route path="/createnew" element={<CreateNew addNew={addNew} />} />
           <Route path="/about" element={<About />} />
           <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
         </Routes>
