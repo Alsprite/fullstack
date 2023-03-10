@@ -2,12 +2,18 @@ import { useField, useResource } from "./hooks";
 import { useEffect } from "react";
 
 const App = () => {
+
   const content = useField('text')
   const name = useField('text')
   const number = useField('text')
 
   const [notes, noteService] = useResource('http://localhost:3005/notes')
   const [persons, personService] = useResource('http://localhost:3005/persons')
+
+  useEffect(() => {
+    noteService.getAll()
+    personService.getAll()
+  }, [])
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
