@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzZTRjYTk5ODI5ZWI2NjRmMGQzYmNkNyIsImlhdCI6MTY3NTkzODkzOH0.0zb2ciXCxKzXgB3RXe0KhmzykbzyneGDr7nJnCYMJkA
+
+{
+    "title": "Meika",
+    "author": "Poika",
+    "url": "youtube",
+    "likes": "2"
+}
