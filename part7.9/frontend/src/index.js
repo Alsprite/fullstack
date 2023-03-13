@@ -1,7 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 // eslint-disable-next-line no-unused-vars
 import css from "./index.css";
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+import App from './App'
+
+const queryClient = new QueryClient()
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+)

@@ -1,35 +1,61 @@
-import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
-import BlogForm from "./components/BlogForm.js";
+import { useState, useEffect } from "react";
 import blogService from "./services/blogs.js";
 import loginService from "./services/login";
 import Notification from "./components/Notification.js";
-import Togglable from "./components/Togglable.js";
+import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { getBlogs, createBlog, updateBlog } from './requests/blogs'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
-  const blogFormRef = useRef();
+
+  const queryClient = useQueryClient()
+
+  const newBlogMutation = useMutation(createBlog, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('blogs')
+    }
+  })
+  const updatedBlogMutation = useMutation(updateBlog, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs')
+    }
+  })
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    const content = ({
+      title: document.forms['blog']['title'].value,
+      author: document.forms['blog']['author'].value,
+      url: document.forms['blog']['url'].value
+    })
+    console.log(content)
+    newBlogMutation.mutate(content)
+  }
+  const likeBlog = async (id, likes) => {
+    const updatedBlog = {...blogs.find(blog => blog.id === id), likes: likes + 1}
+    await updatedBlogMutation.mutateAsync(updatedBlog)
+    queryClient.invalidateQueries('blogs')
+  }
 
   useEffect(() => {
-    const alreadyUser = window.localStorage.getItem("loggedUser");
-    if (alreadyUser) {
-      const user = JSON.parse(alreadyUser);
-      setUser(user);
-      blogService.getAll().then((blogs) => setBlogs(blogs));
-    }
-  }, []);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [message]);
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [message]);
+
+  const result = useQuery('blogs', getBlogs)
+
+  if ( result.isLoading ) {
+    return <div>loading data...</div>
+  }
+  
+  const blogs = result.data
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -51,21 +77,9 @@ const App = () => {
     event.preventDefault();
     window.localStorage.removeItem('loggedUser');
     setUser(null);
+    blogService.setToken(null)
   };
-  const addBlog = (blogObject) => {
-    const auth = user.token;
-    try {
-      blogService.create(blogObject, auth).then((returnedBlog) => {
-        setBlogs(blogs.concat(returnedBlog));
-        blogFormRef.current.toggleVisibility();
-        setMessage(
-          `A new blog ${blogObject.title} by ${blogObject.author} added`
-        );
-      });
-    } catch (exception) {
-      setMessage('error' + exception.response.data.error);
-    }
-  };
+  
   if (user === null) {
     return (
       <div>
@@ -101,17 +115,29 @@ const App = () => {
         <Notification message={message} />
         <p>{user.name} logged in</p>
         <button onClick={handleLogOut}>Log out</button>
-        <Togglable buttonLabel='New blog' ref={blogFormRef}>
-          <BlogForm createBlog={addBlog}></BlogForm>
-        </Togglable>
-        {blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog key={blog.id} blog={blog}></Blog>
-          ))}
+        <h4>Create new</h4>
+        <form name="blog" onSubmit={addBlog}>
+          <input name="title"/>
+          <br></br>
+          <input name="author"/>
+          <br></br>
+          <input name="url"/>
+          <br></br>
+          <button type="submit">Create</button>
+        </form>
+        {blogs.slice().map(blog => 
+        <div key={blog.id}>
+          <div>
+            <br></br>
+            <h2>{blog.title} by {blog.author}</h2>
+            <p>Votes: {blog.likes}</p>
+            <button onClick={likeBlog}>Vote</button>
+          </div>
+          </div>
+        )}
       </div>
-    );
+    )
   }
-};
+}
 
 export default App;
