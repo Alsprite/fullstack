@@ -3,6 +3,9 @@ import messageContext from './Context.js'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
 import { loginUser } from './requests/users'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Blog from './components/Blogs'
+import User from './components/Users'
 
 var loggedIn = false
 var loggedInUID = ""
@@ -131,34 +134,20 @@ const App = () => {
   } else {
     return (
       <div>
-        <h2>blogs</h2>
-        <p>{loggedInUID} logged in</p>
-        <button onClick={handleLogOut}>Log out</button>
-        <h4>Create new</h4>
-        <form name="blog" onSubmit={addBlog}>
-          <input name="title"/>
-          <br></br>
-          <input name="author"/>
-          <br></br>
-          <input name="url"/>
-          <br></br>
-          <button type="submit">Create</button>
-        </form>
         <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>
-        {blogs.slice().map(blog => 
-        <div key={blog.id}>
+        <Router>
           <div>
-            <br></br>
-            <h2>{blog.title} by {blog.author} <button onClick={() => handleDelete(blog.id)}>Delete</button></h2>
-            <p>Url: {blog.url}</p>
-            <p>Likes: {blog.likes}</p>
-            <button onClick={() => {likeBlog(blog.id); counterDispatch({type: 'BLOG_LIKE', name: blog.title})}}>Vote</button>
+            <Link to="/">Blogs </Link>
+            <Link to="/users">Users</Link>
           </div>
-          </div>
-        )}
+        <Routes>
+          <Route path="/" element={<Blog loggedInUID={loggedInUID} handleLogOut={handleLogOut} addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
+          <Route path="/users" element={<User />} />
+        </Routes>
+      </Router>
       </div>
     )
   }
 }
 
-export default App;
+export default App
