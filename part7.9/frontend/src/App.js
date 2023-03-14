@@ -1,9 +1,11 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import messageContext from './Context.js'
-import blogService from "./services/blogs.js";
-import loginService from "./services/login";
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
+import { loginUser } from './requests/users'
+
+var loggedIn = false
+var loggedInUID = ""
 
 const messageReducer = (state, action) => {
   switch (action.type) {
@@ -23,9 +25,6 @@ const messageReducer = (state, action) => {
 }
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [message, counterDispatch] = useReducer(messageReducer, null)
 
   useEffect(() => {
@@ -54,6 +53,16 @@ const App = () => {
     onSuccess: () => {
       queryClient.invalidateQueries('blogs');
     }
+  })
+
+  const loginMutation = useMutation(loginUser, {
+    onError: (error) => {
+      counterDispatch({ type: 'LOGIN_ERROR' })
+    },
+    onSuccess: (data) => {
+      loggedIn = true
+      loggedInUID = data.name
+    },
   })
 
   const addBlog = async (event) => {
@@ -88,62 +97,42 @@ const App = () => {
   
   const blogs = result.data
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    try {
-      let uid = username;
-      let pas = password;
-      const user = await loginService.login({
-        username: uid,
-        password: pas,
-      });
-      blogService.setToken(user.token);
-      setUser(user);
-      window.localStorage.setItem('loggedUser', JSON.stringify(user));
-    } catch (exception) {
-      counterDispatch({type: 'LOGIN_ERROR'})
+  const handleLogin = (event) => {
+    event.preventDefault()
+
+    const credentials = {
+      username: event.target.username.value,
+      password: event.target.password.value,
     }
-  };
-  const handleLogOut = async (event) => {
-    event.preventDefault();
-    window.localStorage.removeItem('loggedUser');
-    setUser(null);
-    blogService.setToken(null)
-  };
+
+    loginMutation.mutate(credentials)
+  }
+
+  const handleLogOut = (event) => {
+    event.preventDefault()
+    loggedIn = false
+    loggedInUID = ""
+  }
   
-  if (user === null) {
+  if (loggedIn === false) {
     return (
       <div>
         <h2>Log in to application</h2>
         <messageContext.Provider value={[message, counterDispatch]}>{message}</messageContext.Provider>
-        <form name='log' onSubmit={handleLogin}>
-          <p>Username</p>
-          <input
-            type='text'
-            name='nimi'
-            id='nameid'
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          ></input>
-          <p>Password</p>
-          <input
-            type='password'
-            name='pass'
-            id='passid'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          ></input>
+        <form onSubmit={handleLogin}>
+          <input type="text" name="username" placeholder="Username"/>
+          <br></br>
+          <input type="password" name="password" placeholder="Password"/>
+          <br></br>
+          <button type="submit">Login</button>
         </form>
-        <button type='submit' id='login-btn' onClick={handleLogin}>
-          Log in
-        </button>
       </div>
     );
   } else {
     return (
       <div>
         <h2>blogs</h2>
-        <p>{user.name} logged in</p>
+        <p>{loggedInUID} logged in</p>
         <button onClick={handleLogOut}>Log out</button>
         <h4>Create new</h4>
         <form name="blog" onSubmit={addBlog}>
