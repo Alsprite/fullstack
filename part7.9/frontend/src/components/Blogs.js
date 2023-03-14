@@ -1,8 +1,7 @@
 const Blog = (props) => {
     return (
         <div>
-        <h2>blogs</h2>
-        <p>{props.loggedInUID} logged in</p>
+        <h2>Blogs</h2>
         <button onClick={props.handleLogOut}>Log out</button>
         <h4>Create new</h4>
         <form name="blog" onSubmit={props.addBlog}>

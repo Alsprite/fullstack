@@ -134,6 +134,7 @@ const App = () => {
   } else {
     return (
       <div>
+        <p>{loggedInUID} logged in</p>
         <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>
         <Router>
           <div>
@@ -141,8 +142,8 @@ const App = () => {
             <Link to="/users">Users</Link>
           </div>
         <Routes>
-          <Route path="/" element={<Blog loggedInUID={loggedInUID} handleLogOut={handleLogOut} addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
-          <Route path="/users" element={<User />} />
+          <Route path="/" element={<Blog handleLogOut={handleLogOut} addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
+          <Route path="/users" element={<User blogs={blogs} />} />
         </Routes>
       </Router>
       </div>

@@ -1,6 +1,14 @@
-const User = () => {
+const User = (props) => {
+    console.log(props.blogs)
     return (
-        <h1>balls</h1>
+        <div>
+        <h1>Users</h1>
+        <ul>
+        {props.blogs.map((user, index) => (
+          <li key={index}>{user)}</li>
+        ))}
+      </ul>
+        </div>
     )
 }
 export default User
