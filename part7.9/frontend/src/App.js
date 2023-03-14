@@ -31,11 +31,15 @@ const App = () => {
       author: document.forms['blog']['author'].value,
       url: document.forms['blog']['url'].value
     })
+    document.forms['blog']['title'].value = ''
+    document.forms['blog']['author'].value= ''
+    document.forms['blog']['url'].value = ''
     console.log(content)
     newBlogMutation.mutate(content)
   }
-  const likeBlog = async (id, likes) => {
-    const updatedBlog = {...blogs.find(blog => blog.id === id), likes: likes + 1}
+  const likeBlog = async (id) => {
+    const blogs = queryClient.getQueryData('blogs')
+    const updatedBlog = {...blogs.find(blog => blog.id === id), likes: blogs.find(blog => blog.id === id).likes + 1}
     await updatedBlogMutation.mutateAsync(updatedBlog)
     queryClient.invalidateQueries('blogs')
   }
@@ -130,8 +134,9 @@ const App = () => {
           <div>
             <br></br>
             <h2>{blog.title} by {blog.author}</h2>
-            <p>Votes: {blog.likes}</p>
-            <button onClick={likeBlog}>Vote</button>
+            <p>Url: {blog.url}</p>
+            <p>Likes: {blog.likes}</p>
+            <button onClick={() => likeBlog(blog.id)}>Vote</button>
           </div>
           </div>
         )}
