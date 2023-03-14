@@ -3,7 +3,7 @@ import messageContext from './Context.js'
 import blogService from "./services/blogs.js";
 import loginService from "./services/login";
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { getBlogs, createBlog, updateBlog } from './requests/blogs'
+import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
 
 const messageReducer = (state, action) => {
   switch (action.type) {
@@ -13,6 +13,8 @@ const messageReducer = (state, action) => {
     return `Blog ${action.name} added`
     case 'BLOG_LIKE':
       return `Blog ${action.name} liked`
+    case 'BLOG_DELETE':
+      return `Blog deleted`
     case 'CLEAR':
       return null
     default: 
@@ -48,6 +50,11 @@ const App = () => {
       queryClient.invalidateQueries('blogs')
     }
   })
+  const deleteMutation = useMutation(removeBlog, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs');
+    }
+  })
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -66,6 +73,10 @@ const App = () => {
     const blogs = queryClient.getQueryData('blogs')
     const updatedBlog = {...blogs.find(blog => blog.id === id), likes: blogs.find(blog => blog.id === id).likes + 1}
     await updatedBlogMutation.mutateAsync(updatedBlog)
+    queryClient.invalidateQueries('blogs')
+  }
+  const handleDelete = async (id) => {
+    deleteMutation.mutate(id)
     queryClient.invalidateQueries('blogs')
   }
 
@@ -149,7 +160,7 @@ const App = () => {
         <div key={blog.id}>
           <div>
             <br></br>
-            <h2>{blog.title} by {blog.author}</h2>
+            <h2>{blog.title} by {blog.author} <button onClick={() => handleDelete(blog.id)}>Delete</button></h2>
             <p>Url: {blog.url}</p>
             <p>Likes: {blog.likes}</p>
             <button onClick={() => {likeBlog(blog.id); counterDispatch({type: 'BLOG_LIKE', name: blog.title})}}>Vote</button>

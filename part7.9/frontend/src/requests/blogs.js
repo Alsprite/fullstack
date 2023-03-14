@@ -23,3 +23,12 @@ export const updateBlog = async (updatedBlog) => {
     const response = await axios.put(`${baseUrl}/${updatedBlog.id}`, updatedBlog, config)
     return response.data
   }
+export const removeBlog = async (id) => {
+    const jtn1 = window.localStorage.getItem('loggedUser')
+    const jtn2 = JSON.parse(jtn1)
+    const jtn3 = jtn2.token
+    const authoriz = { headers: { Authorization: `Bearer ${jtn3}` } }
+    const request = axios.delete(`${baseUrl}/${id}`, authoriz)
+    const response = await request
+    return response.data
+  }
