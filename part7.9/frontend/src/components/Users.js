@@ -26,7 +26,7 @@ const Users = (props) => {
         <tbody>
           {users.map(user =>
             <tr key={user}>
-              <Link to={`/users/${blogsByUser[user].id}`}>
+              <Link to={`/users/${blogsByUser[user][0]['user']['id']}`}>
               <td>{user}</td>
               </Link>
               <td>{blogsByUser[user].length}</td>
