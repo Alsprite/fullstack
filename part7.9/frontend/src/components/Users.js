@@ -18,20 +18,14 @@ const User = (props) => {
         <thead>
           <tr>
             <th>User</th>
-            <th>Blogs</th>
+            <th>Blogs created</th>
           </tr>
         </thead>
         <tbody>
-          {users.map(user => 
+          {users.map(user =>
             <tr key={user}>
               <td>{user}</td>
-              <td>
-                <ul>
-                  {blogsByUser[user].map(blog => 
-                    <li key={blog.id}>{blog.title}</li>
-                  )}
-                </ul>
-              </td>
+              <td>{blogsByUser[user].length}</td>
             </tr>
           )}
         </tbody>
