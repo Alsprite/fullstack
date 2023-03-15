@@ -1,13 +1,15 @@
-const User = (props) => {
+import { Link } from 'react-router-dom'
+
+const Users = (props) => {
 
   const blogsByUser = props.blogs.reduce((acc, blog) => {
-    const user = blog.user.username;
+    const user = blog.user.username
     if (!acc[user]) {
-      acc[user] = [];
+      acc[user] = []
     }
-    acc[user].push(blog);
-    return acc;
-  }, {});
+    acc[user].push(blog)
+    return acc
+  }, {})
 
   const users = Object.keys(blogsByUser);
 
@@ -24,7 +26,9 @@ const User = (props) => {
         <tbody>
           {users.map(user =>
             <tr key={user}>
+              <Link to={`/users/${blogsByUser[user].id}`}>
               <td>{user}</td>
+              </Link>
               <td>{blogsByUser[user].length}</td>
             </tr>
           )}
@@ -34,4 +38,4 @@ const User = (props) => {
   )
 }
 
-export default User
+export default Users
