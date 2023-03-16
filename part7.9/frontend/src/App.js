@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
 import { loginUser } from './requests/users'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import Blog from './components/Blogs'
+import Blogs from './components/Blogs'
+import Blog from './components/Blog'
 import Users from './components/Users'
 import User from './components/User'
 
@@ -135,7 +136,8 @@ const App = () => {
   } else {
     return (
       <div>
-        <p>{loggedInUID} logged in</p>
+        <h2>Blogs</h2>
+        <p>{loggedInUID} logged in <button onClick={handleLogOut}>Log out</button></p>
         <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>
         <Router>
           <div>
@@ -143,9 +145,10 @@ const App = () => {
             <Link to="/users">Users</Link>
           </div>
         <Routes>
-          <Route path="/" element={<Blog handleLogOut={handleLogOut} addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
+          <Route path="/" element={<Blogs addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} counterDispatch={counterDispatch}/>} />
           <Route path="/users" element={<Users blogs={blogs} />} />
           <Route path="/users/:id" element={<User blogs={blogs} />}/>
+          <Route path="/blogs/:id" element={<Blog blogs={blogs} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
         </Routes>
       </Router>
       </div>
