@@ -5,7 +5,8 @@ import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
 import { loginUser } from './requests/users'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Blog from './components/Blogs'
-import User from './components/Users'
+import Users from './components/Users'
+import User from './components/User'
 
 var loggedIn = false
 var loggedInUID = ""
@@ -143,7 +144,8 @@ const App = () => {
           </div>
         <Routes>
           <Route path="/" element={<Blog handleLogOut={handleLogOut} addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} likeBlog={likeBlog} counterDispatch={counterDispatch} />} />
-          <Route path="/users" element={<User blogs={blogs} />} />
+          <Route path="/users" element={<Users blogs={blogs} />} />
+          <Route path="/users/:id" element={<User blogs={blogs} />}/>
         </Routes>
       </Router>
       </div>
