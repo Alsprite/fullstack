@@ -136,14 +136,14 @@ const App = () => {
   } else {
     return (
       <div>
-        <h2>Blogs</h2>
-        <p>{loggedInUID} logged in <button onClick={handleLogOut}>Log out</button></p>
-        <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>
         <Router>
-          <div>
+        <div className="bar">
             <Link to="/">Blogs </Link>
             <Link to="/users">Users</Link>
+            <p>{loggedInUID} logged in <button onClick={handleLogOut}>Log out</button></p>
           </div>
+        <h2>Blog app</h2>
+        <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>
         <Routes>
           <Route path="/" element={<Blogs addBlog={addBlog} blogs={blogs} handleDelete={handleDelete} counterDispatch={counterDispatch}/>} />
           <Route path="/users" element={<Users blogs={blogs} />} />
