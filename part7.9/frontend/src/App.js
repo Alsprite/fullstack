@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import messageContext from './Context.js'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getBlogs, createBlog, updateBlog, removeBlog } from './requests/blogs'
@@ -8,6 +8,7 @@ import Blogs from './components/Blogs'
 import Blog from './components/Blog'
 import Users from './components/Users'
 import User from './components/User'
+import { Form, Button, Alert } from 'react-bootstrap'
 
 var loggedIn = false
 var loggedInUID = ""
@@ -31,6 +32,7 @@ const messageReducer = (state, action) => {
 
 const App = () => {
   const [message, counterDispatch] = useReducer(messageReducer, null)
+  const [welcome, setWelcome] = useState(null)
 
   useEffect(() => {
     if (message) {
@@ -111,6 +113,10 @@ const App = () => {
     }
     loggedInUID = credentials.username
     loginMutation.mutate(credentials)
+    setWelcome(`Welcome ${credentials.username}`)
+    setTimeout(() => {
+      setWelcome(null)
+    }, 10000)
   }
 
   const handleLogOut = (event) => {
@@ -122,26 +128,33 @@ const App = () => {
   
   if (loggedIn === false) {
     return (
-      <div>
+      <div className="container">
         <h2>Log in to application</h2>
         <messageContext.Provider value={[message, counterDispatch]}>{message}</messageContext.Provider>
-        <form onSubmit={handleLogin}>
-          <input type="text" name="username" placeholder="Username"/>
-          <br></br>
-          <input type="password" name="password" placeholder="Password"/>
-          <br></br>
-          <button type="submit">Login</button>
-        </form>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
+            <Form.Label>Username:</Form.Label>
+            <Form.Control type="text" name="username"/>
+            <Form.Label>Password:</Form.Label>
+            <Form.Control type="password" name="password" />
+            <Button variant="primary" type="submit">Login</Button>
+          </Form.Group>
+        </Form>
       </div>
     );
   } else {
     return (
-      <div>
+      <div className="container">
+        {(welcome &&
+          <Alert variant="success">
+            {welcome}
+          </Alert>  
+        )}
         <Router>
         <div className="bar">
             <Link to="/">Blogs </Link>
             <Link to="/users">Users</Link>
-            <p>{loggedInUID} logged in <button onClick={handleLogOut}>Log out</button></p>
+            <h3>{loggedInUID} logged in <button onClick={handleLogOut}>Log out</button></h3>
           </div>
         <h2>Blog app</h2>
         <messageContext.Provider value={[message, counterDispatch]}><p>{message}</p></messageContext.Provider>

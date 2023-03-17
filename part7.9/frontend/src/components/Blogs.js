@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Table from 'react-bootstrap/Table';
 
 const Blog = (props) => {
     return (
@@ -13,14 +14,17 @@ const Blog = (props) => {
           <br></br>
           <button type="submit">Create</button>
         </form>
-        {props.blogs.slice().map(blog => 
-        <div key={blog.id}>
-          <div>
-            <br></br>
-            <h2><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></h2>
-          </div>
-          </div>
-        )}
+        <Table striped>
+          <tbody>
+            {props.blogs.slice().map(blog =>
+              <tr key={blog.id}>
+                <td>
+                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                </td>
+              </tr>  
+            )}
+          </tbody>
+        </Table>
         </div>
     )
 }
