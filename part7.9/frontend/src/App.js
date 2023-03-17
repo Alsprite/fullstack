@@ -66,7 +66,7 @@ const App = () => {
     },
     onSuccess: (data) => {
       loggedIn = true
-      loggedInUID = data.name
+      localStorage.setItem('token', data);
     },
   })
 
@@ -109,7 +109,7 @@ const App = () => {
       username: event.target.username.value,
       password: event.target.password.value,
     }
-
+    loggedInUID = credentials.username
     loginMutation.mutate(credentials)
   }
 
@@ -117,6 +117,7 @@ const App = () => {
     event.preventDefault()
     loggedIn = false
     loggedInUID = ""
+    localStorage.removeItem('token')
   }
   
   if (loggedIn === false) {
