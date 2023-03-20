@@ -107,11 +107,15 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: (author = 'Robert Martin') => {
-      const authorName = author
-      const filteredBooks = books.filter(book => book.author === authorName)
+    allBooks: (genre = 'refactoring') => {
+      const filteredBooks = books.filter(book => book.genres.includes(genre))
       return filteredBooks
     },
+    // allBooks: (author = 'Robert Martin') => {
+    //   const authorName = author
+    //   const filteredBooks = books.filter(book => book.author === authorName)
+    //   return filteredBooks
+    // },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
         name: author.name,
