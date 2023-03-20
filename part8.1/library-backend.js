@@ -107,7 +107,11 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: () => books,
+    allBooks: (author = 'Robert Martin') => {
+      const authorName = author;
+      const filteredBooks = books.filter(book => book.author === authorName);
+      return filteredBooks;
+    },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
         name: author.name,
