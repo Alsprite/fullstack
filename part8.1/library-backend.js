@@ -108,9 +108,9 @@ const resolvers = {
     booksCount: () => books.length,
     authorCount: () => authors.length,
     allBooks: (author = 'Robert Martin') => {
-      const authorName = author;
-      const filteredBooks = books.filter(book => book.author === authorName);
-      return filteredBooks;
+      const authorName = author
+      const filteredBooks = books.filter(book => book.author === authorName)
+      return filteredBooks
     },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
@@ -118,7 +118,7 @@ const resolvers = {
         bookCount: books.filter(book => book.author === author.name).length
       }))
 
-      return authorsWithBooks;
+      return authorsWithBooks
     }
   },
   Book: {
