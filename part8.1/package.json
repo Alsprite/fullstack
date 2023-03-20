@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start library-backend.js",
+    "dev": "node library-backend.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,5 +14,8 @@
     "@apollo/server": "^4.5.0",
     "graphql": "^16.6.0",
     "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
   }
 }
