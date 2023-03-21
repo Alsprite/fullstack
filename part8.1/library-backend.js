@@ -116,9 +116,13 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: (author = 'Robert Martin') => {
-      const authorName = author
-      const filteredBooks = books.filter(book => book.author === authorName)
+    // allBooks: (author = 'Robert Martin') => {
+    //   const authorName = author
+    //   const filteredBooks = books.filter(book => book.author === authorName)
+    //   return filteredBooks
+    // },
+    allBooks: (genre = "refactoring") => {
+      const filteredBooks = books.filter(book => book.genres.includes(genre))
       return filteredBooks
     },
     allAuthors: () => {
