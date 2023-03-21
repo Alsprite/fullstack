@@ -116,14 +116,10 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: (root, args) => {
-      let filteredBooks = books
-      if (args.author)  {
-        filteredBooks = filteredBooks.filter(book => book.author === args.author)
-      }
-      if (args.genre) {
-        filteredBooks = filteredBooks.filter(book => book.genres.includes(args.genre))
-      }
+    allBooks: (author = 'Robert Martin') => {
+      const authorName = author
+      const filteredBooks = books.filter(book => book.author === authorName)
+      return filteredBooks
     },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
