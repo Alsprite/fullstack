@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { v4: uuidv4 } = require('uuid')
 
 let authors = [
   {
@@ -94,12 +95,20 @@ type Book {
   published: Int!
   genres: [String!]!
 }
-
+type Mutation {
+  addBook(
+    title: String!
+    author: String!
+    published: Int!
+    genres: [String!]!
+  ): Book
+}
 type Query {
   booksCount: Int!
   authorCount: Int!
   allBooks: [Book!]!
   allAuthors: [Author!]!
+  Mutation: [Book!]!
 }
 `
 
@@ -107,15 +116,15 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: (genre = 'refactoring') => {
-      const filteredBooks = books.filter(book => book.genres.includes(genre))
-      return filteredBooks
+    allBooks: (root, args) => {
+      let filteredBooks = books
+      if (args.author)  {
+        filteredBooks = filteredBooks.filter(book => book.author === args.author)
+      }
+      if (args.genre) {
+        filteredBooks = filteredBooks.filter(book => book.genres.includes(args.genre))
+      }
     },
-    // allBooks: (author = 'Robert Martin') => {
-    //   const authorName = author
-    //   const filteredBooks = books.filter(book => book.author === authorName)
-    //   return filteredBooks
-    // },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
         name: author.name,
@@ -129,7 +138,22 @@ const resolvers = {
     author: (root) => {
       return authors.find(a => a.name === root.author)
     }
-  }
+  },
+  Mutation: {
+    addBook: (parent, args) => {
+      const { title, author, published, genres} = args
+      const authorExists = authors.find(a => a.name === author)
+    
+      if (!authorExists) {
+        const newAuthor = { name: author, id: uuidv4() }
+        authors = authors.concat(newAuthor)
+      }
+
+      const newBook = {...args, id: uuidv4()}
+      books = books.concat(newBook)
+      return newBook
+      }
+    }
 }
 
 const server = new ApolloServer({
