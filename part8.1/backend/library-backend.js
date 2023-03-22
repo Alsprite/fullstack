@@ -126,9 +126,12 @@ const resolvers = {
     //   const filteredBooks = books.filter(book => book.author === authorName)
     //   return filteredBooks
     // },
-    allBooks: (genre = "refactoring") => {
-      const filteredBooks = books.filter(book => book.genres.includes(genre))
-      return filteredBooks
+    allBooks: (parent, args) => {
+      const { genre } = args
+      if (genre) {
+        return books.filter(book => book.genres.includes(genre))
+      }
+      return books
     },
     allAuthors: () => {
       const authorsWithBooks = authors.map(author => ({
