@@ -113,7 +113,6 @@ type Query {
   authorCount: Int!
   allBooks: [Book!]!
   allAuthors: [Author!]!
-  Mutation: [Book!]!
 }
 `
 
