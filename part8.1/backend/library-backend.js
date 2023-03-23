@@ -89,6 +89,7 @@ type Author {
   name: String!
   born: Int
   bookCount: Int!
+  id: String!
 }
 type Book {
   title: String!
@@ -136,6 +137,7 @@ const resolvers = {
       const authorsWithBooks = authors.map(author => ({
         name: author.name,
         born: author.born,
+        id: author.id,
         bookCount: books.filter(book => book.author === author.name).length
       }))
 
