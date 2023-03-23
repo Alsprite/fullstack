@@ -164,14 +164,15 @@ const resolvers = {
       books = books.concat(newBook)
       return newBook
       },
-      editAuthor: (root, args) => {
-      const rightAuthor = authors.find(a => a.author === args.author)
-      if (!rightAuthor) {
-        return null
-      }
-      const updatedAuthor = {...rightAuthor, born: args.born}
-      authors.map(a => a.author === args.author ? updatedAuthor : a)
-      return updatedAuthor
+      editAuthor: (parent, args) => {
+        const { name, born } = args;
+        const author = authors.find(author => author.name === name);
+        if (!author) {
+          return null;
+        }
+        const updatedAuthor = { ...author, born };
+        authors = authors.map(a => a.id === author.id ? updatedAuthor : a);
+        return updatedAuthor;
       }
     }
 }
