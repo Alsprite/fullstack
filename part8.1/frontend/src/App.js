@@ -4,10 +4,11 @@ import {
   Routes, Route, Link
 } from 'react-router-dom'
 import Authors from './components/authors'
+import Books from './components/books'
 
 const ALL_AUTHORS = gql`
   query {
-    allAuthors  {
+    allAuthors {
       name
       id
       born
@@ -18,21 +19,22 @@ const ALL_AUTHORS = gql`
 
 const App = () => {
   const { loading, data } = useQuery(ALL_AUTHORS)
-
-  if (loading)  {
-    return <div>loading...</div>
+  const padding = {
+    padding: 5
   }
   console.log(data)
+
   return (
     <Router>
     <div>
-      <Link to="/"></Link>
-      <Link to="/authors">Authors</Link>
-      <Link to="/books">Books</Link>
+      <Link style={padding} to="/"></Link>
+      <Link style={padding} to="/authors">Authors</Link>
+      <Link style={padding} to="/books">Books</Link>
     </div>
 
     <Routes>
-      <Route path="/authors" element={<Authors data={data}/>} />
+      <Route path="/authors" element={<Authors loading={loading} data={data}/>} />
+      <Route path="/books" element={<Books />} />
     </Routes>
     </Router>
   )

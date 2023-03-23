@@ -96,6 +96,7 @@ type Book {
   author: Author!
   published: Int!
   genres: [String!]!
+  id: String!
 }
 type Mutation {
   addBook(

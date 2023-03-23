@@ -1,4 +1,8 @@
 const Authors = (props) => {
+    if (props.loading)  {
+        return <div>loading...</div>
+    }
+
     return (
     <div>
       <table>
