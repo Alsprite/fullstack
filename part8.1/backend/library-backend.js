@@ -113,7 +113,7 @@ type Mutation {
 type Query {
   booksCount: Int!
   authorCount: Int!
-  allBooks: [Book!]!
+  allBooks(author: String, genre: String): [Book!]!
   allAuthors: [Author!]!
 }
 `
@@ -122,15 +122,14 @@ const resolvers = {
   Query: {
     booksCount: () => books.length,
     authorCount: () => authors.length,
-    // allBooks: (author = 'Robert Martin') => {
-    //   const authorName = author
-    //   const filteredBooks = books.filter(book => book.author === authorName)
-    //   return filteredBooks
-    // },
     allBooks: (parent, args) => {
-      const { genre } = args
-      if (genre) {
-        return books.filter(book => book.genres.includes(genre))
+      console.log(args)
+      if (args.author) {
+        return books.filter(book => book.author === args.author)
+      }
+
+      if (args.genre) {
+        return books.filter(book => book.genres.includes(args.genre))
       }
       return books
     },
