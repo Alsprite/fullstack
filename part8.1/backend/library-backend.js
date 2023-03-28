@@ -41,11 +41,11 @@ type Mutation {
     author: String!
     published: Int!
     genres: [String!]!
-  ): Book
+  ): Book!
   editAuthor(
     name: String!
     born: Int!
-  ): Author!
+  ): Author
 }
 type Query {
   booksCount: Int!
@@ -92,8 +92,9 @@ const resolvers = {
   },
   Book: {
     author: async (root) => {
-      let authors = await Author.find()
-      return authors.find(author => author.name === root.author)
+      let author = await Author.findOne({ name: root.author })
+      console.log(author, "ja", root.author)
+      return author
     }
   },
   Mutation: {
@@ -102,7 +103,6 @@ const resolvers = {
       let authors = await Author.find()
       const { title, author, published, genres} = args
       const authorExists = authors.find(a => a.name === author)
-    
       if (!authorExists) {
         const newAuthor = { name: author, id: uuidv4() }
         authors = authors.concat(newAuthor)
