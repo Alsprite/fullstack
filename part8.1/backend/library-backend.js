@@ -66,20 +66,20 @@ const resolvers = {
       return authors.length
     },
     allBooks: async (root, args) => {
+      let books = await Book.find()
+      if (args.author) {
+        return books.filter(book => book.author.name === args.author)
+      }
 
+      if (args.genre) {
+        return books.filter(book => book.genres.includes(args.genre))
+      }
+
+      return books
     },
-    // allBooks: async (root, args) => {
-    //   if (args.author) {
-    //     return books.filter(book => book.author.name === args.author)
-    //   }
-
-    //   if (args.genre) {
-    //     return books.filter(book => book.genres.includes(args.genre))
-    //   }
-
-    //   return books
-    // },
-    allAuthors: () => {
+    allAuthors: async () => {
+      let books = await Book.find()
+      let authors = await Author.find()
       const authorsWithBooks = authors.map(author => ({
         name: author.name,
         born: author.born,
@@ -91,12 +91,15 @@ const resolvers = {
     }
   },
   Book: {
-    author: (root) => {
-      return authors.find(a => a.name === root.author)
+    author: async (root) => {
+      let authors = await Author.find()
+      return authors.find(author => author.name === root.author)
     }
   },
   Mutation: {
-    addBook: (parent, args) => {
+    addBook: async (parent, args) => {
+      let books = await Book.find()
+      let authors = await Author.find()
       const { title, author, published, genres} = args
       const authorExists = authors.find(a => a.name === author)
     
@@ -109,7 +112,8 @@ const resolvers = {
       books = books.concat(newBook)
       return newBook
       },
-      editAuthor: (parent, args) => {
+      editAuthor: async (parent, args) => {
+        let authors = await Author.find()
         const { name, born } = args;
         const author = authors.find(author => author.name === name);
         if (!author) {
