@@ -26,7 +26,7 @@ type Author {
   name: String!
   born: Int
   bookCount: Int!
-  id: String!
+  id: ID!
 }
 type Book {
   title: String!
@@ -66,7 +66,8 @@ const resolvers = {
       return authors.length
     },
     allBooks: async (root, args) => {
-      let books = await Book.find()
+      let books = await Book.find().populate('author')
+      console.log(books[0])
       if (args.author) {
         return books.filter(book => book.author.name === args.author)
       }
@@ -92,9 +93,8 @@ const resolvers = {
   },
   Book: {
     author: async (root) => {
-      let author = await Author.findOne({ name: root.author })
-      console.log(author, "ja", root.author)
-      return author
+      let author = await Author.findById(root.author.id)
+      return author;
     }
   },
   Mutation: {
