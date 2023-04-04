@@ -17,4 +17,6 @@ const calculateBmi = (height: number, weight: number) => {
     }
 }
 
-calculateBmi(180,60)
+const height: number = Number(process.argv[2])
+const weight: number = Number(process.argv[3])
+calculateBmi(height, weight)
