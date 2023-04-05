@@ -30,6 +30,7 @@
     },
     "homepage": "https://github.com/Alsprite/fullstack#readme",
     "devDependencies": {
-        "cypress": "^12.5.1"
+        "cypress": "^12.5.1",
+        "typescript": "^5.0.3"
     }
 }
