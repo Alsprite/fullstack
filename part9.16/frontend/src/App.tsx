@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Weather, Visibility } from './types'
 
 interface Diary {
   id: number,
   date: string;
-  weather: string;
-  visibility: string;
+  weather: Weather;
+  visibility: Visibility;
   comment: string;
 }
 
 function App() {
   const [diaries, setDiaries] = useState<Diary[]>([])
-  const [newDiary, setNewDiary] = useState('')
   const [date, setDate] = useState('')
-  const [weather, setWeather] = useState('')
-  const [visibility, setVisibility] = useState('')
+  const [weather, setWeather] = useState<Weather>(Weather.Sunny);
+  const [visibility, setVisibility] = useState<Visibility>(Visibility.Great)
   const [comment, setComment] = useState('')
   
   useEffect(() => {
@@ -28,16 +28,17 @@ const addDiary = (event: React.SyntheticEvent) => {
   const newThing = {
     id: diaries.length + 1,
     date,
-    weather,
-    visibility,
+    weather: weather as Weather,
+    visibility: visibility as Visibility,
     comment
   }
+  console.log(newThing)
   axios.post<Diary>('http://localhost:3001/api/diaries', newThing).then(response => {
     setDiaries([...diaries, newThing])
   })
   setDate('')
-  setVisibility('')
-  setWeather('')
+  setVisibility(Visibility.Great)
+  setWeather(Weather.Sunny)
   setComment('')
 }
  
@@ -49,10 +50,10 @@ const addDiary = (event: React.SyntheticEvent) => {
         <input id="date" value={date} onChange={({ target }) => setDate(target.value)}></input>
         <br></br>
         <label htmlFor="visibility">visibility</label>
-        <input id="visibility" value={visibility} onChange={({ target }) => setVisibility(target.value)}></input>
+        <input id="visibility" value={visibility} onChange={({ target }) => setVisibility(target.value as Visibility)}></input>
         <br></br>
         <label htmlFor="weather">weather</label>
-        <input id="weather" value={weather} onChange={({ target }) => setWeather(target.value)}></input>
+        <input id="weather" value={weather} onChange={({ target }) => setWeather(target.value as Weather)}></input>
         <br></br>
         <label htmlFor="comment">comment</label>
         <input id="comment" value={comment} onChange={({ target }) => setComment(target.value)}></input>
