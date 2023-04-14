@@ -14,14 +14,15 @@ const App = () => {
 
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
-
     const fetchPatientList = async () => {
       const patients = await patientService.getAll();
       setPatients(patients);
     };
     void fetchPatientList();
   }, []);
-  
+
+  console.log(patients)
+
   return (
     <div className="App">
       <Router>
