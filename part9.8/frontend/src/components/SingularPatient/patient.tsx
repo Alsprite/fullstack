@@ -1,10 +1,28 @@
+import React from 'react'
 import { useParams } from 'react-router-dom';
+import Occupational from './Occupational'
+import Hospital from './Hospital'
+import HealthCheck from './HealthCheck'
+import { Entry } from '../../types'
 
 const PatientPage = (props: any) => {
     const { id } = useParams()
     const patient = props.patients.find((patient: any) => patient.id === id)
-    const diagnosis = props.diagnosis.find((d: any) => patient.entries[0].diagnosisCodes.includes(d.code))
-    console.log(diagnosis)
+    // const diagnosis = props.diagnosis.find((d: any) => patient.entries[0].diagnosisCodes.includes(d.code))
+
+    const EntryDetails = ({ entry }: { entry: Entry }) => {
+        switch (entry.type) {
+            case "Hospital":
+                return <Hospital entry={entry}/>
+            case "OccupationalHealthcare":
+                return <Occupational entry={entry} />
+            case "HealthCheck": 
+                return <HealthCheck entry={entry}/>
+            default:
+                return <div>bals</div>
+        }
+    }
+
     return (
         <div>
             <h2>{patient.name}</h2>
@@ -12,12 +30,9 @@ const PatientPage = (props: any) => {
             <p>ssn: {patient.ssn}</p>
             <p>occupation: {patient.occupation}</p>
             <h2>entries</h2>
-            <p>{patient.entries[0].date} {patient.entries[0].description}</p>
-            <ul>
-                {patient.entries[0].diagnosisCodes.map((diag: any) => 
-                    <li key={diag}>{diag} {diagnosis.name}</li>
-                )}
-            </ul>
+            {patient.entries.map((entry: Entry) => (
+                <EntryDetails key={entry.id} entry={entry} />
+            ))}
         </div>
     )
 }

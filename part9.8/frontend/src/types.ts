@@ -10,7 +10,7 @@ export enum Gender {
   Other = "other"
 }
 
-interface BaseEntry {
+export interface BaseEntry {
   id: string;
   description: string;
   date: string;
@@ -42,7 +42,7 @@ export interface HospitalEntry extends BaseEntry {
   };
 }
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
   type: "HealthCheck";
   healthCheckRating: HealthCheckRating;
 }

@@ -1,0 +1,115 @@
+#heart0 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  
+  #heart0::before, #heart0::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: green;
+  }
+  
+  #heart0::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  #heart0::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+
+  #heart1 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  
+  #heart1::before, #heart1::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: yellow;
+  }
+  
+  #heart1::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  #heart1::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+
+    #heart2 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  
+  #heart2::before, #heart2::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: orange;
+  }
+  
+  #heart2::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  #heart2::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+
+      #heart3 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  
+  #heart3::before, #heart3::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: red;
+  }
+  
+  #heart3::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  #heart3::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
