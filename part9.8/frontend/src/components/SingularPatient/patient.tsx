@@ -6,9 +6,16 @@ const PatientPage = (props: any) => {
     return (
         <div>
             <h2>{patient.name}</h2>
-            <h3>gender: {patient.gender}</h3>
-            <h3>ssn: {patient.ssn}</h3>
-            <h3>occupation: {patient.occupation}</h3>
+            <p>gender: {patient.gender}</p>
+            <p>ssn: {patient.ssn}</p>
+            <p>occupation: {patient.occupation}</p>
+            <h2>entries</h2>
+            <p>{patient.entries[0].date} {patient.entries[0].description}</p>
+            <ul>
+                {patient.entries[0].diagnosisCodes.map((diagnosis: any) => 
+                    <li key={diagnosis}>{diagnosis}</li>    
+                )}
+            </ul>
         </div>
     )
 }
