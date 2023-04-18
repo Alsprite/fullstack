@@ -12,6 +12,14 @@ router.get('/:patientId', (req, res) => {
     res.send(patientService.getOne(req.params.patientId))
 })
 
+router.get('/:patientId/entries', (req, res) => {
+    const patientEntries = patientService.getPatientEntries(req.params.patientId)
+    if (!patientEntries) {
+      return res.status(404).send('Patient not found');
+    }
+    return res.send(patientEntries)
+  })
+
 router.post('/', (req, res) => {
     const { name, dateOfBirth, ssn, gender, occupation, entries } = req.body
     const newPatient = patientService.addPatient({
