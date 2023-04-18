@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express'
 import patientService from "../services/patientService"
+import { v1 as uuid } from "uuid";
 
 const router = express.Router()
 
@@ -18,7 +19,28 @@ router.get('/:patientId/entries', (req, res) => {
       return res.status(404).send('Patient not found');
     }
     return res.send(patientEntries)
-  })
+})
+
+router.post('/:patientId/entries', (req, res) => {
+    const patient = patientService.getOne(req.params.patientId);
+    if (!patient) {
+      return res.status(404).send('Patient not found');
+    }
+    const { date, type, specialist, diagnosisCodes, description, discharge, healthCheckRating } = req.body;
+    const newEntry = {
+      id: uuid(),
+      date,
+      type,
+      specialist,
+      diagnosisCodes,
+      description,
+      discharge,
+      healthCheckRating
+    };
+    patient.entries.push(newEntry);
+    res.json(newEntry);
+    return
+});
 
 router.post('/', (req, res) => {
     const { name, dateOfBirth, ssn, gender, occupation, entries } = req.body

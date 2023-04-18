@@ -13,7 +13,7 @@ const HealthCheck = (props: any) => {
           case 3:
             return <div id="heart3"></div>;
           default:
-            return <div>balls</div>;
+            return <div></div>;
         }
       };
     

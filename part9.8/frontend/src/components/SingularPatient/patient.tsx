@@ -5,16 +5,19 @@ import Hospital from './Hospital'
 import HealthCheck from './HealthCheck'
 import { Entry } from '../../types'
 import { Button, Grid, TextField } from '@mui/material';
+import axios from 'axios'
 
 interface Props {
     onCancel: () => void;
 }
 
 const PatientPage = (props: any) => {
+    const [type, setType] = useState('')
     const [desc, setDesc] = useState('')
     const [date, setDate] = useState('')
     const [spec, setSpec] = useState('')
     const [health, setHealth] = useState('')
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [codes, setCodes] = useState<string[]>([])
     const [showForm, setShowForm] = useState(false)
     const { id } = useParams()
@@ -30,16 +33,47 @@ const PatientPage = (props: any) => {
             case "HealthCheck": 
                 return <HealthCheck entry={entry}/>
             default:
-                return <div>bals</div>
+                return <div></div>
         }
     }
 
-    
-
     const Form = ({ onCancel }: Props) => {
+        const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            const data = {
+              type: type,
+              date: date,
+              specialist: spec,
+              diagnosisCodes: codes,
+              description: desc,
+              discharge: null, // Replace with the actual discharge data if needed
+              healthCheckRating: health
+            };
+            const url = `http://localhost:3001/api/patients/${id}/entries`;
+            try {
+              const response = await axios.post(url, data);
+              console.log(response.data); // Do something with the response data if needed
+              onCancel();
+            } catch (error) {
+                console.error(error);
+                setErrorMessage('An error happened');
+            }
+            setType('')
+            setDesc('');
+            setDate('');
+            setSpec('');
+            setHealth('');
+            setCodes([]);
+          };
         return (
             <div>
-      <form >
+      <form onSubmit={handleSubmit}>
+      <TextField
+          label="Hospital visit reason"
+          fullWidth 
+          value={type}
+          onChange={({ target }) => setType(target.value)}
+        />
         <TextField
           label="Description"
           fullWidth 
@@ -48,13 +82,13 @@ const PatientPage = (props: any) => {
         />
         <TextField
           label="Date"
+          placeholder="YYYY-MM-DD"
           fullWidth
           value={date}
           onChange={({ target }) => setDate(target.value)}
         />
         <TextField
           label="Specialist"
-          placeholder="YYYY-MM-DD"
           fullWidth
           value={spec}
           onChange={({ target }) => setSpec(target.value)}
@@ -68,8 +102,8 @@ const PatientPage = (props: any) => {
         <TextField
           label="Diagnosis codes"
           fullWidth
-          value={codes}
-          onChange={({ target }) => setCodes((prevCodes) => [...prevCodes, target.value.toString()])}
+          value={codes.join(',')}
+          onChange={({ target }) => setCodes(target.value.split(','))}
         />
 
         <Grid>
@@ -79,10 +113,7 @@ const PatientPage = (props: any) => {
               variant="contained"
               style={{ float: "left" }}
               type="button"
-              onClick={() => {
-                onCancel()
-                setShowForm(false)
-            }}
+              onClick={() => {onCancel()}}
             >
               Cancel
             </Button>
@@ -94,9 +125,6 @@ const PatientPage = (props: any) => {
               }}
               type="submit"
               variant="contained"
-              onClick={() => {
-                setShowForm(false)
-              }}
             >
               Add
             </Button>
@@ -117,6 +145,7 @@ const PatientPage = (props: any) => {
             {patient.entries.map((entry: Entry) => (
                 <EntryDetails key={entry.id} entry={entry} />
             ))}
+            {errorMessage && <p>{errorMessage}</p>}
             <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
                 ADD NEW ENTRY
             </Button>
