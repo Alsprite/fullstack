@@ -50,12 +50,12 @@ export interface HealthCheckEntry extends BaseEntry {
 export type Entry = | HospitalEntry | OccupationalHealthcareEntry | HealthCheckEntry;
 
 export interface Patient {
-  id: string;
-  name: string;
-  occupation: string;
-  gender: Gender;
-  ssn?: string;
-  dateOfBirth?: string;
+  id: string
+  name: string
+  occupation: string
+  gender: Gender
+  ssn?: string
+  dateOfBirth?: string
   entries: Entry[]
 }
 

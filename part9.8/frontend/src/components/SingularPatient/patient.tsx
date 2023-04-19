@@ -17,6 +17,7 @@ const PatientPage = (props: any) => {
     const [date, setDate] = useState('')
     const [spec, setSpec] = useState('')
     const [health, setHealth] = useState('')
+    const [employerName, setEmployerName] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const [codes, setCodes] = useState<string[]>([])
     const [showForm, setShowForm] = useState(false)
@@ -26,6 +27,7 @@ const PatientPage = (props: any) => {
     const [isSpecFocused, setIsSpecFocused] = useState(false);
     const [isHealthFocused, setIsHealthFocused] = useState(false);
     const [isCodesFocused, setIsCodesFocused] = useState(false);
+    const [isEmployeeFocused, setIsEmployeeFocused] = useState(false)
     const { id } = useParams()
     const patient = props.patients.find((patient: any) => patient.id === id)
     // const diagnosis = props.diagnosis.find((d: any) => patient.entries[0].diagnosisCodes.includes(d.code))
@@ -68,13 +70,20 @@ const PatientPage = (props: any) => {
     const handleCodesFocus = () => {
       setIsCodesFocused(true);
     };
+
+    const handleEmployeeBlur = () => {
+      setIsEmployeeFocused(false);
+    };
+    
+    const handleEmployeeFocus = () => {
+      setIsEmployeeFocused(true);
+    };
     
 
     useEffect(() => {
       const fetchEntries = async () => {
         try {
           const response = await axios.get(`http://localhost:3001/api/patients/${id}/entries`);
-          console.log('response', response.data)
           setEntries(response.data);
         } catch (error) {
           console.error(error);
@@ -110,12 +119,13 @@ const PatientPage = (props: any) => {
               diagnosisCodes: codes,
               description: desc,
               discharge: null,
-              healthCheckRating: health
+              healthCheckRating: health,
+              employerName: employerName
             };
             const url = `http://localhost:3001/api/patients/${id}/entries`;
             try {
               const response = await axios.post(url, data);
-              console.log(response.data);
+              console.log('response.data:', response.data);
               onCancel();
             } catch (error: any) {
               setErrorMessage(error.response.data.error)
@@ -126,6 +136,7 @@ const PatientPage = (props: any) => {
             setSpec('')
             setHealth('')
             setCodes([])
+            setEmployerName('')
           };
         return (
             <div>
@@ -138,9 +149,9 @@ const PatientPage = (props: any) => {
         <label htmlFor="healthBtn">Healthcheck</label>
         <input type="radio" id="healthBtn" value="HealthCheck" onChange={({ target }) => setType(target.value)}></input>
         <br></br>
-
+        <br></br>
+        <label>Description</label>
         <TextField
-          label="Description"
           fullWidth
           type="text"
           value={desc}
@@ -149,19 +160,18 @@ const PatientPage = (props: any) => {
           onFocus={handleDescFocus}
           autoFocus={isDescFocused}
         />
+        <label>Date</label>
         <TextField
-          label="Date"
-          placeholder="DD-MM-YYYY"
           fullWidth
-          type="text"
+          type="date"
           value={date}
           onChange={({ target }) => setDate(target.value)}
           onBlur={handleDateBlur}
           onFocus={handleDateFocus}
           autoFocus={isDateFocused}
         />
+        <label>Specialist</label>
         <TextField
-          label="Specialist"
           fullWidth
           type="text"
           value={spec}
@@ -170,18 +180,36 @@ const PatientPage = (props: any) => {
           onFocus={handleSpecFocus}
           autoFocus={isSpecFocused}
         />
+        {type === 'HealthCheck' && (
+        <>
+          <label>Healthcheck Rating</label>
+          <TextField
+            fullWidth
+            type="number"
+            value={health}
+            onChange={({ target }) => setHealth(target.value)}
+            onBlur={handleHealthBlur}
+            onFocus={handleHealthFocus}
+            autoFocus={isHealthFocused}
+          />
+        </>
+      )}
+        {type === 'OccupationalHealthcare' && (
+          <>
+          <label>Employee</label>
+          <TextField
+            fullWidth
+            type="text"
+            value={employerName}
+            onChange={({ target }) => setEmployerName(target.value)}
+            onBlur={handleEmployeeBlur}
+            onFocus={handleEmployeeFocus}
+            autoFocus={isEmployeeFocused}
+          />
+          </>
+        )}
+        <label>Diagnosis codes</label>
         <TextField
-          label="Healthcheck rating 0-3"
-          fullWidth
-          type="number"
-          value={health}
-          onChange={({ target }) => setHealth(target.value)}
-          onBlur={handleHealthBlur}
-          onFocus={handleHealthFocus}
-          autoFocus={isHealthFocused}
-        />
-        <TextField
-          label="Diagnosis codes"
           fullWidth
           type="text"
           value={codes.join(',')}

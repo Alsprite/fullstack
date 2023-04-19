@@ -26,7 +26,7 @@ router.post('/:patientId/entries', (req, res) => {
   if (!patient) {
     return res.status(404).send('Patient not found');
   }
-  const { date, type, specialist, diagnosisCodes, description, discharge, healthCheckRating } = req.body;
+  const { date, type, specialist, diagnosisCodes, description, discharge, healthCheckRating, employerName, employee } = req.body;
 
   if (type === "") {
     return res.status(400).json({ error: 'No visit type given' });
@@ -40,8 +40,15 @@ router.post('/:patientId/entries', (req, res) => {
   if (specialist === "") {
     return res.status(400).json({ error: 'No specialist specified' });
   }
-  if (healthCheckRating === "") {
+  if (type === "HealthCheck") {
+    if (healthCheckRating === "") {
     return res.status(400).json({ error: 'Healthcheck rating is empty' });
+  }
+  }
+  if (type === "OccupationalHealthcare") {
+    if (employee === "") {
+      return res.status(400).json({ error: 'Occupation is empty' });
+    }
   }
   if (discharge === "") {
     return res.status(400).json({ error: 'No discharge given' });
@@ -55,7 +62,9 @@ router.post('/:patientId/entries', (req, res) => {
     diagnosisCodes,
     description,
     discharge,
-    healthCheckRating
+    healthCheckRating,
+    employerName,
+    employee
   };
   patient.entries.push(newEntry);
   console.log(patient)
