@@ -57,8 +57,8 @@ router.post('/:patientId/entries', (req, res) => {
     discharge,
     healthCheckRating
   };
-  console.log(newEntry)
-  patient.entries.push(newEntry)
+  patient.entries.push(newEntry);
+  console.log(patient)
   res.json(newEntry);
   return
 });
