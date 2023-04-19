@@ -17,7 +17,7 @@ const PatientPage = (props: any) => {
     const [date, setDate] = useState('')
     const [spec, setSpec] = useState('')
     const [health, setHealth] = useState('')
-    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [codes, setCodes] = useState<string[]>([])
     const [showForm, setShowForm] = useState(false)
     const { id } = useParams()
@@ -46,24 +46,23 @@ const PatientPage = (props: any) => {
               specialist: spec,
               diagnosisCodes: codes,
               description: desc,
-              discharge: null, // Replace with the actual discharge data if needed
+              discharge: null,
               healthCheckRating: health
             };
             const url = `http://localhost:3001/api/patients/${id}/entries`;
             try {
               const response = await axios.post(url, data);
-              console.log(response.data); // Do something with the response data if needed
+              console.log(response.data);
               onCancel();
-            } catch (error) {
-                console.error(error);
-                setErrorMessage('An error happened');
+            } catch (error: any) {
+              setErrorMessage(error.response.data.error)
             }
             setType('')
-            setDesc('');
-            setDate('');
-            setSpec('');
-            setHealth('');
-            setCodes([]);
+            setDesc('')
+            setDate('')
+            setSpec('')
+            setHealth('')
+            setCodes([])
           };
         return (
             <div>
@@ -145,7 +144,7 @@ const PatientPage = (props: any) => {
             {patient.entries.map((entry: Entry) => (
                 <EntryDetails key={entry.id} entry={entry} />
             ))}
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <h3 style={{color: "red"}}>{errorMessage}</h3>}
             <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
                 ADD NEW ENTRY
             </Button>

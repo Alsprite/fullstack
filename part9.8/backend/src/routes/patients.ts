@@ -22,24 +22,45 @@ router.get('/:patientId/entries', (req, res) => {
 })
 
 router.post('/:patientId/entries', (req, res) => {
-    const patient = patientService.getOne(req.params.patientId);
-    if (!patient) {
-      return res.status(404).send('Patient not found');
-    }
-    const { date, type, specialist, diagnosisCodes, description, discharge, healthCheckRating } = req.body;
-    const newEntry = {
-      id: uuid(),
-      date,
-      type,
-      specialist,
-      diagnosisCodes,
-      description,
-      discharge,
-      healthCheckRating
-    };
-    patient.entries.push(newEntry);
-    res.json(newEntry);
-    return
+  const patient = patientService.getOne(req.params.patientId);
+  if (!patient) {
+    return res.status(404).send('Patient not found');
+  }
+  const { date, type, specialist, diagnosisCodes, description, discharge, healthCheckRating } = req.body;
+
+  if (type === "") {
+    return res.status(400).json({ error: 'No visit type given' });
+  }
+  if (description === "") {
+    return res.status(400).json({ error: 'Please add a description' });
+  }
+  if (date === "") {
+    return res.status(400).json({ error: 'No date given' });
+  }
+  if (specialist === "") {
+    return res.status(400).json({ error: 'No specialist specified' });
+  }
+  if (healthCheckRating === "") {
+    return res.status(400).json({ error: 'Healthcheck rating is empty' });
+  }
+  if (discharge === "") {
+    return res.status(400).json({ error: 'No discharge given' });
+  }
+
+  const newEntry = {
+    id: uuid(),
+    date,
+    type,
+    specialist,
+    diagnosisCodes,
+    description,
+    discharge,
+    healthCheckRating
+  };
+  console.log(newEntry)
+  patient.entries.push(newEntry)
+  res.json(newEntry);
+  return
 });
 
 router.post('/', (req, res) => {
