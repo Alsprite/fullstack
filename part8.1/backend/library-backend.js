@@ -3,11 +3,10 @@ const { startStandaloneServer } = require('@apollo/server/standalone')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 const Author = require('./models/Author')
-const Book = require('./models/Book')
+const Book = require('./models/book')
 
 require('dotenv').config()
-
-const MONGODB_URI = process.env.MONGODB_URI
+const { MONGODB_URI } = require('./config')
 
 console.log('connecting to', MONGODB_URI)
 
@@ -58,15 +57,17 @@ const resolvers = {
     booksCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (parent, args) => {
-      let books = await Book.find()
-      console.log(books[0])
+      let books = await Book.find().populate('author')
+      // console.log(books[0])
       if (args.author) {
-        return books.filter(book => book.author === args.author)
+        console.log(args.author)
+        console.log(books[0].Author)
+        books = books.filter(book => book.author === args.author)
+      }
+      if (args.genre) {
+        books = books.find({ genres: args.genre })
       }
 
-      if (args.genre) {
-        return books.filter(book => book.genres.includes(args.genre))
-      }
       return books
     },
     allAuthors: async () => {
@@ -84,7 +85,7 @@ const resolvers = {
   },
   Book: {
     author: (root) => {
-      console.log(root)
+      // console.log(root)
       return root
     }
   },
