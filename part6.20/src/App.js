@@ -71,12 +71,10 @@ const App = () => {
     event.target.anecdote.value = ''
     newAnecdoteMutation.mutate({content})
   }
-  const voteAnecdote = async (id, votes) => {
-    const updatedAnecdote = { ...anecdotes.find(a => a.id === id), votes: votes + 1 };
-    await updatedAnecdoteMutation.mutateAsync(updatedAnecdote);
-    queryClient.invalidateQueries('anecdotes');
-  };
-
+  const handleVote = (anecdote) => {
+    updatedAnecdoteMutation.mutate({...anecdote, 'votes': anecdote.votes + 1})
+    queryClient.invalidateQueries('anecdotes')
+  }
   return (
     <messageContext.Provider value={[message, counterDispatch]}>
       <h2>Anecdote App</h2>
@@ -93,7 +91,7 @@ const App = () => {
             <br></br>
             {anecdote.content}
             <p>Votes: {anecdote.votes}</p>
-            <button onClick={() => {voteAnecdote(anecdote.id, anecdote.votes); counterDispatch({type: 'LIKE', name: anecdote.content})}}>Vote</button>
+            <button onClick={() => {handleVote(anecdote); counterDispatch({type: 'LIKE', name: anecdote.content})}}>Vote</button>
           </div>
           </div>
         )}
