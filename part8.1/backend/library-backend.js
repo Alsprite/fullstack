@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid')
 const Author = require('./models/author')
 const Book = require('./models/book')
 
-require('dotenv').config()
+require('dotenv').config({ path: './config.env'})
 const MONGODB_URI = process.env.MONGODB_URI
 
 console.log('connecting to', MONGODB_URI)
