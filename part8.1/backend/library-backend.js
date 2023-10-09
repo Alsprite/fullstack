@@ -142,7 +142,6 @@ const resolvers = {
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       let query = {}
-      console.log(args)
       if (args.author) {
         // Find the author document by name
         const author = await Author.findOne({ name: args.author });
@@ -252,10 +251,6 @@ const resolvers = {
     editAuthor: async (root, args) => {
       try {
         const author = await Author.findOne({ name: args.name })
-              
-        if (!author) {
-          return null
-        }
 
         author.born = args.born;
               
