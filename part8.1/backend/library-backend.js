@@ -256,7 +256,7 @@ const resolvers = {
               
         const updatedAuthor = await author.save();
 
-        updatedAuthor;
+        return updatedAuthor;
       } catch(error) {
         throw new GraphQLError('Editing author failed', {
           extensions: {
@@ -266,7 +266,6 @@ const resolvers = {
           }
         })
       }
-      
     }
   },
   Book: {
