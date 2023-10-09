@@ -23,6 +23,16 @@ async function startServer() {
 
     const { url } = await startStandaloneServer(server, {
       listen: { port: config.PORT },
+      context: async ({ req, res }) => {
+        const auth = req ? req.headers.authorization : null
+        if (auth && auth.startsWith('Bearer ')) {
+          const decodedToken = jwt.verify(
+            auth.substring(7), config.JWT_SECRET
+          )
+          const currentUser = await User.findById(decodedToken.id).populate('favoriteGenre')
+          return { currentUser }
+        }
+      },
     });
 
     console.log(`Server ready at ${url}`);
@@ -161,6 +171,9 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
+    me: (root, args, context) => {
+      return context.currentUser
+    },
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
@@ -208,8 +221,16 @@ const resolvers = {
     },
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
       try {
+        const currentUser = context.currentUser
+        if (!currentUser) {
+          throw new GraphQLError('not authenticated', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+            }
+          })
+        }
         let author = await Author.findOne({ name: args.author })
 
         if (!author) {
@@ -248,8 +269,17 @@ const resolvers = {
 
       
     },
-    newAuthor: async (root, args) => {
+    newAuthor: async (root, args, context) => {
       try {
+        const currentUser = context.currentUser
+
+        if (!currentUser) {
+          throw new GraphQLError('not authenticated', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+            }
+          })
+        }
         let authorExists = await Author.findOne({ name: args.author })
         if (authorExists) {
           throw new Error("Author already exists")
@@ -271,8 +301,17 @@ const resolvers = {
         })
       }
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
       try {
+        const currentUser = context.currentUser
+
+        if (!currentUser) {
+          throw new GraphQLError('not authenticated', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+            }
+          })
+        }
         const author = await Author.findOne({ name: args.name })
 
         author.born = args.born;
