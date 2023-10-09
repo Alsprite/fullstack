@@ -228,15 +228,20 @@ const resolvers = {
         await newAuthor.save()
         return newAuthor
     },
-    editAuthor: (root, args) => {
-      const author = Author.find(author => author.name === args.name)
+    editAuthor: async (root, args) => {
+      console.log(args)
+      const author = await Author.findOne({ name: args.name })
+      console.log(author)
       
       if (!author) {
         return null
       }
 
-      author.born = args.born
-      return author
+      author.born = args.born;
+      
+      const updatedAuthor = await author.save();
+
+      return updatedAuthor;
     }
   },
   Book: {
