@@ -142,13 +142,13 @@ const resolvers = {
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       let query = {}
-
+      console.log(args)
       if (args.author) {
         // Find the author document by name
         const author = await Author.findOne({ name: args.author });
     
         if (author) {
-          // If the author is found, filter books by author's ObjectId
+          // If the author is found, filter books by author's ObjectId  
           query.author = author._id;
         } else {
           // If the author is not found, return an empty array
@@ -157,7 +157,7 @@ const resolvers = {
       }
 
       if (args.genre) {
-        query.genre = args.genre
+        query.genres = args.genre
       }
 
       const books = await Book.find(query).populate('author')
@@ -229,9 +229,7 @@ const resolvers = {
         return newAuthor
     },
     editAuthor: async (root, args) => {
-      console.log(args)
       const author = await Author.findOne({ name: args.name })
-      console.log(author)
       
       if (!author) {
         return null
