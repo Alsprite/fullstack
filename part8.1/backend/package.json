@@ -1,25 +1,23 @@
 {
-  "name": "part8.1",
+  "name": "osa8",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start library-backend.js",
-    "dev": "node library-backend.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon library-backend.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/server": "^4.5.0",
+    "@apollo/server": "^4.9.1",
     "dotenv": "^16.3.1",
-    "graphql": "^16.6.0",
-    "mongoose": "^7.0.4",
-    "mongoose-unique-validator": "^3.1.0",
-    "react-scripts": "^5.0.1",
-    "uuid": "^9.0.0"
+    "graphql": "^16.8.0",
+    "mongoose": "^7.5.3",
+    "mongoose-unique-validator": "^4.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21"
+    "nodemon": "^3.0.1"
   }
 }
