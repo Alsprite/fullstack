@@ -187,36 +187,48 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
+      try {
+        let author = await Author.findOne({ name: args.author })
 
-      let author = await Author.findOne({ name: args.author })
-
-      if (!author) {
-        author = new Author({
+        if (!author) {
+          author = new Author({
           name: args.author
         })
-       await author.save()
+          await author.save()
+        }
+
+        const newBook = new Book ({
+          title: args.title,
+          author: author._id,
+          published: args.published,
+          genres: args.genres,
+        })
+
+        await newBook.save()
+        return {
+          title: newBook.title,
+          published: newBook.published,
+          author: {
+            name: author.name, // Ensure that the author's name is not null
+          },
+          genres: newBook.genres,
+          id: newBook._id,
+        };
+      } catch(error) {
+        throw new GraphQLError('Creating book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
       }
 
-      const newBook = new Book ({
-        title: args.title,
-        author: author._id,
-        published: args.published,
-        genres: args.genres,
-      })
-
-      await newBook.save()
-      return {
-        title: newBook.title,
-        published: newBook.published,
-        author: {
-          name: author.name, // Ensure that the author's name is not null
-        },
-        genres: newBook.genres,
-        id: newBook._id,
-      };
+      
     },
     newAuthor: async (root, args) => {
-      let authorExists = await Author.findOne({ name: args.author })
+      try {
+        let authorExists = await Author.findOne({ name: args.author })
         if (authorExists) {
           throw new Error("Author already exists")
         }
@@ -227,19 +239,39 @@ const resolvers = {
 
         await newAuthor.save()
         return newAuthor
+      } catch(error) {
+        throw new GraphQLError('Creating author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
     },
     editAuthor: async (root, args) => {
-      const author = await Author.findOne({ name: args.name })
-      
-      if (!author) {
-        return null
+      try {
+        const author = await Author.findOne({ name: args.name })
+              
+        if (!author) {
+          return null
+        }
+
+        author.born = args.born;
+              
+        const updatedAuthor = await author.save();
+
+        updatedAuthor;
+      } catch(error) {
+        throw new GraphQLError('Editing author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
       }
-
-      author.born = args.born;
       
-      const updatedAuthor = await author.save();
-
-      return updatedAuthor;
     }
   },
   Book: {
