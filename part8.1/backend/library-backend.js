@@ -5,6 +5,9 @@ const config = require('./config')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
+const User = require('./models/user')
+const jwt = require('jsonwebtoken')
+const { GraphQLError } = require('graphql')
 
 mongoose.set('strictQuery', false)
 
@@ -95,6 +98,16 @@ async function startServer() {
 // ]
 
 const typeDefs = `
+  type User {
+    username: String!
+    favoriteGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Author {
     name: String!
     born: Int
@@ -115,6 +128,7 @@ const typeDefs = `
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -133,6 +147,15 @@ const typeDefs = `
       name: String!
       born: Int!
     ): Author
+
+    createUser(
+      username: String!
+      favoriteGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `
 
@@ -266,7 +289,42 @@ const resolvers = {
           }
         })
       }
-    }
+    },
+    createUser: async (root, args) => {
+      const user = new User({
+        username: args.username,
+        favoriteGenre: args.favoriteGenre
+      })
+
+    return user.save()
+      .catch(error => {
+        throw new GraphQLError('Creating the user failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      })
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+  
+      if ( !user || args.password !== 'secret' ) {
+        throw new GraphQLError('wrong credentials', {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        })        
+      }
+  
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      }
+  
+      return { value: jwt.sign(userForToken, config.JWT_SECRET) }
+    },
   },
   Book: {
     title: (root) => root.title,
