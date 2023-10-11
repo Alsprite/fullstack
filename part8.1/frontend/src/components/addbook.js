@@ -47,7 +47,6 @@ const Add = (props) => {
         <input placeholder="published" type="number" value={published} onChange={(e) => setPublished(e.target.value)} />
         <br></br>
         <input placeholder="genre" value={genre} onChange={(e) => setGenre(e.target.value)} />
-        <button type="submit">add genre</button>
         <br></br>
         <button type="submit">create book</button>
       </form>
