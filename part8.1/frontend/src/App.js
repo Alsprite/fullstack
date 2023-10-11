@@ -11,7 +11,6 @@ const ALL_AUTHORS = gql`
   query {
     allAuthors {
       name
-      id
       born
       bookCount
     }
@@ -19,11 +18,13 @@ const ALL_AUTHORS = gql`
 `
 
 const App = () => {
-  const { loading, data } = useQuery(ALL_AUTHORS)
-  const padding = {
-    padding: 5
+  const allAuthors = useQuery(ALL_AUTHORS)
+  const padding = { padding: 5 }
+
+  if (allAuthors.loading) {
+    return <div>loading...</div>
   }
-  console.log(data)
+  console.log(allAuthors.data.allAuthors)
 
   return (
     <Router>
@@ -35,7 +36,7 @@ const App = () => {
     </div>
 
     <Routes>
-      <Route path="/authors" element={<Authors loading={loading} data={data}/>} />
+      <Route path="/authors" element={<Authors authors={allAuthors.data.allAuthors}/>} />
       <Route path="/books" element={<Books />} />
       <Route path="/addBook" element={<Addbook />} />
     </Routes>

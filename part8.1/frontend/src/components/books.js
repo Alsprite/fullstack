@@ -4,18 +4,20 @@ const Books = (props) => {
 
 const ALL_BOOKS = gql`
     query {
-    allBooks {
+      allBooks {
         title
         author {
-        name
+          name
+          born
+          bookCount
         }
-    published
-    id
-    }
+        published
+        genres
+        id
+      }
   }
 `
     const { loading, data } = useQuery(ALL_BOOKS)
-    console.log(data)
 
     if (loading) {
         return <div>loading...</div>
