@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { gql } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
 
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
@@ -13,6 +14,7 @@ const LOGIN = gql`
 const LoginForm = ({ setError, setToken }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
@@ -25,8 +27,9 @@ const LoginForm = ({ setError, setToken }) => {
       const token = result.data.login.value
       setToken(token)
       localStorage.setItem('phonenumbers-user-token', token)
+      navigate('/')
     }
-  }, [result.data, setToken])
+  }, [result.data, setToken, navigate])
 
   const submit = async (event) => {
     event.preventDefault()

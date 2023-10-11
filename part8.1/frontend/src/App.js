@@ -30,18 +30,6 @@ const App = () => {
   if (allAuthors.loading) {
     return <div>loading...</div>
   }
-  console.log(allAuthors.data.allAuthors)
-
-  if (!token) {
-    return (
-      <div>
-        <h2>Login</h2>
-        <LoginForm
-          setToken={setToken}
-        />
-      </div>
-    )
-  }
 
   return (
     <Router>
@@ -50,13 +38,22 @@ const App = () => {
       <Link style={padding} to="/authors">Authors</Link>
       <Link style={padding} to="/books">Books</Link>
       <Link style={padding} to="/addBook">Add book</Link>
-      <button onClick={logout}>Log out</button>
-    </div>
+      {token ? (
+          <Link style={padding} to="/" onClick={logout}>
+            Log out
+          </Link>
+        ) : (
+          <Link style={padding} to="/login">
+            Log in
+          </Link>
+        )}
+      </div>
 
     <Routes>
       <Route path="/authors" element={<Authors authors={allAuthors.data.allAuthors}/>} />
       <Route path="/books" element={<Books />} />
       <Route path="/addBook" element={<Addbook />} />
+      <Route path="/login" element={<LoginForm setToken={setToken} />} />
     </Routes>
     </Router>
 
