@@ -6,11 +6,8 @@ const Authors = (props) => {
     const [born, setBorn] = useState(0)
 
     const EDIT_AUTHOR = gql`
-    mutation editAuthor($name: String!, $born: Int!) {
-      editAuthor(
-        name: $name,
-        born: $born
-      ) {
+    mutation Mutation($name: String!, $born: Int!) {
+      editAuthor(name: $name, born: $born) {
         name
         born
       }
