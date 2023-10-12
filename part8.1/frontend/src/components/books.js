@@ -1,24 +1,9 @@
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useState } from 'react'
+import { ALL_BOOKS } from '../queries'
 
 const Books = (props) => {
 const [genresToShow, setGenresToShow] = useState(null)
-
-const ALL_BOOKS = gql`
-  query Query($genre: String) {
-    allBooks(genre: $genre) {
-      title
-      author {
-        name
-        born
-        bookCount
-      }
-      published
-      genres
-      id
-    }
-  }
-`
 
 const { loading, data } = useQuery(ALL_BOOKS, {
   variables: { genre: genresToShow },

@@ -1,4 +1,4 @@
-import { gql, useQuery, useApolloClient } from '@apollo/client'
+import { useQuery, useApolloClient } from '@apollo/client'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Authors from './components/authors'
 import Books from './components/books'
@@ -6,16 +6,7 @@ import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
 import Recommend from './components/recommend'
 import { useState } from 'react';
-
-const ALL_AUTHORS = gql`
-  query {
-    allAuthors {
-      name
-      born
-      bookCount
-    }
-  }
-`
+import { ALL_AUTHORS } from './queries'
 
 const App = () => {
   const [token, setToken] = useState(null)

@@ -1,25 +1,5 @@
-import { gql, useQuery } from '@apollo/client'
-
-const FAVORITE_GENRE = gql` {
-    me {
-        favoriteGenre
-    }
-}`
-const ALL_BOOKS = gql`
-    query {
-      allBooks {
-        title
-        author {
-          name
-          born
-          bookCount
-        }
-        published
-        genres
-        id
-      }
-  }
-`
+import { useQuery } from '@apollo/client'
+import { FAVORITE_GENRE, ALL_BOOKS } from '../queries'
 
 const Recommend = (props) => {
     const books = useQuery(ALL_BOOKS)
