@@ -31,15 +31,8 @@ const App = () => {
       <Link style={padding} to="/books">Books</Link>
       <Link style={padding} to="/addBook">Add book</Link>
       <Link style={padding} to="/recommend">recommend</Link>
-      {token ? (
-          <Link style={padding} to="/" onClick={logout}>
-            Log out
-          </Link>
-        ) : (
-          <Link style={padding} to="/login">
-            Log in
-          </Link>
-        )}
+      <Link style={padding} to="/login">Log in</Link>
+      <Link style={padding} to="/" onClick={logout}>Log out</Link>
       </div>
 
     <Routes>
