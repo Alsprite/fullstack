@@ -5,12 +5,17 @@ import Books from './components/books'
 import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
 import Recommend from './components/recommend'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ALL_AUTHORS } from './queries'
 
 const App = () => {
   const [token, setToken] = useState(null)
   const client = useApolloClient()
+  useEffect(() => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }, [client])
   const logout = () => {
     setToken(null)
     localStorage.clear()
@@ -30,10 +35,19 @@ const App = () => {
       <Link style={padding} to="/authors">Authors</Link>
       <Link style={padding} to="/books">Books</Link>
       <Link style={padding} to="/addBook">Add book</Link>
-      <Link style={padding} to="/recommend">recommend</Link>
-      <Link style={padding} to="/login">Log in</Link>
-      <Link style={padding} to="/" onClick={logout}>Log out</Link>
-      </div>
+      {token ? (
+        <>
+        <Link style={padding} to="/recommend">recommend</Link>
+        <Link style={padding} to="/" onClick={logout}>
+            Log out
+          </Link>
+        </>
+      ) : (
+        <Link style={padding} to="/login">
+          Log in
+        </Link>
+      )}
+    </div>
 
     <Routes>
       <Route path="/authors" element={<Authors authors={allAuthors.data.allAuthors}/>} />
@@ -43,7 +57,6 @@ const App = () => {
       <Route path="/recommend" element={<Recommend token={token}/>} />
     </Routes>
     </Router>
-
   )
 }
 
