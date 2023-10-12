@@ -35,7 +35,7 @@ const ALL_BOOKS = gql`
     return (
       <div>
       <h1>Books</h1>
-      <p>Filter by genre:</p>
+      <p>Filter by genre: {genresToShow}</p>
       <select onChange={handleGenreChange}>
         <option value="">All Genres</option>
         {data.allBooks
