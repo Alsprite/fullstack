@@ -4,6 +4,7 @@ import Authors from './components/authors'
 import Books from './components/books'
 import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
+import Recommend from './components/recommend'
 import { useState } from 'react';
 
 const ALL_AUTHORS = gql`
@@ -38,6 +39,7 @@ const App = () => {
       <Link style={padding} to="/authors">Authors</Link>
       <Link style={padding} to="/books">Books</Link>
       <Link style={padding} to="/addBook">Add book</Link>
+      <Link style={padding} to="/recommend">recommend</Link>
       {token ? (
           <Link style={padding} to="/" onClick={logout}>
             Log out
@@ -54,6 +56,7 @@ const App = () => {
       <Route path="/books" element={<Books />} />
       <Route path="/addBook" element={<Addbook />} />
       <Route path="/login" element={<LoginForm setToken={setToken} />} />
+      <Route path="/recommend" element={<Recommend token={token}/>} />
     </Routes>
     </Router>
 
