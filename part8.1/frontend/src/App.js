@@ -22,7 +22,7 @@ const App = () => {
     client.resetStore()
   }
   const allAuthors = useQuery(ALL_AUTHORS)
-  const padding = { padding: 5 }
+  const padding = { padding: 5, textDecoration: 'none', color: "black" }
 
   if (allAuthors.loading) {
     return <div>loading...</div>
@@ -32,20 +32,16 @@ const App = () => {
     <Router>
     <div>
       <Link style={padding} to="/"></Link>
-      <Link style={padding} to="/authors">Authors</Link>
-      <Link style={padding} to="/books">Books</Link>
-      <Link style={padding} to="/addBook">Add book</Link>
+      <button><Link style={padding} to="/authors">Authors</Link></button>
+      <button><Link style={padding} to="/books">Books</Link></button>
+      <button><Link style={padding} to="/addBook">Add book</Link></button>
       {token ? (
         <>
-        <Link style={padding} to="/recommend">recommend</Link>
-        <Link style={padding} to="/" onClick={logout}>
-            Log out
-          </Link>
+        <button><Link style={padding} to="/recommend">recommend</Link></button>
+        <button><Link style={padding} to="/" onClick={logout}>Log out</Link></button>
         </>
       ) : (
-        <Link style={padding} to="/login">
-          Log in
-        </Link>
+        <button><Link style={padding} to="/login">Log in</Link></button>
       )}
     </div>
 
