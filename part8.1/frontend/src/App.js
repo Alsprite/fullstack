@@ -5,7 +5,7 @@ import Books from './components/books'
 import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
 import Recommend from './components/recommend'
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { ALL_AUTHORS } from './queries'
 
 const App = () => {
