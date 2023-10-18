@@ -42,7 +42,6 @@ const resolvers = {
       addBook: async (root, args, context) => {
         try {
           const currentUser = context.currentUser
-          console.log(currentUser)
           if (!currentUser) {
             throw new GraphQLError('not authenticated', {
               extensions: {
@@ -58,17 +57,26 @@ const resolvers = {
           })
             await author.save()
           }
-  
           const newBook = new Book ({
             title: args.title,
             author: author._id,
             published: args.published,
             genres: args.genres,
           })
+
+          const bookAdded = {
+            title: newBook.title,
+            published: newBook.published,
+            author: {
+              name: author.name, // Ensure that the author's name is not null
+            },
+            genres: newBook.genres,
+            id: newBook._id,
+          }
   
           await newBook.save()
-          pubsub.publish('BOOK_ADDED', { bookAdded: newBook })
-          return newBook
+          pubsub.publish('BOOK_ADDED', { bookAdded })
+          return bookAdded
         } catch(error) {
           throw new GraphQLError('Creating book failed', {
             extensions: {
