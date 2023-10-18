@@ -1,4 +1,4 @@
-import { useQuery, useApolloClient } from '@apollo/client'
+import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Authors from './components/authors'
 import Books from './components/books'
@@ -6,7 +6,7 @@ import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
 import Recommend from './components/recommend'
 import { useState, useEffect } from 'react'
-import { ALL_AUTHORS } from './queries'
+import { ALL_AUTHORS, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -16,6 +16,16 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }, [client])
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      try {
+        console.log(data.data.bookAdded.title)
+        window.alert(`Book ${data.data.bookAdded.title} has been added.`)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+  })
   const logout = () => {
     setToken(null)
     localStorage.clear()
@@ -48,7 +58,7 @@ const App = () => {
     <Routes>
       <Route path="/authors" element={<Authors authors={allAuthors.data.allAuthors}/>} />
       <Route path="/books" element={<Books />} />
-      <Route path="/addBook" element={<Addbook />} />
+      <Route path="/addBook" element={<Addbook client={client} />} />
       <Route path="/login" element={<LoginForm setToken={setToken} />} />
       <Route path="/recommend" element={<Recommend token={token}/>} />
     </Routes>
