@@ -3,6 +3,9 @@ const { GraphQLError } = require('graphql')
 const Author = require('./models/author')
 const Book = require('./models/book')
 const User = require('./models/user')
+const { PubSub } = require('graphql-subscriptions')
+const config = require('./config')
+const pubsub = new PubSub()
 
 const resolvers = {
     Query: {
@@ -39,6 +42,7 @@ const resolvers = {
       addBook: async (root, args, context) => {
         try {
           const currentUser = context.currentUser
+          console.log(currentUser)
           if (!currentUser) {
             throw new GraphQLError('not authenticated', {
               extensions: {
@@ -63,15 +67,8 @@ const resolvers = {
           })
   
           await newBook.save()
-          return {
-            title: newBook.title,
-            published: newBook.published,
-            author: {
-              name: author.name, // Ensure that the author's name is not null
-            },
-            genres: newBook.genres,
-            id: newBook._id,
-          };
+          pubsub.publish('BOOK_ADDED', { bookAdded: newBook })
+          return newBook
         } catch(error) {
           throw new GraphQLError('Creating book failed', {
             extensions: {
@@ -81,7 +78,6 @@ const resolvers = {
             }
           })
         }
-  
         
       },
       newAuthor: async (root, args, context) => {
@@ -176,7 +172,6 @@ const resolvers = {
           username: user.username,
           id: user._id,
         }
-    
         return { value: jwt.sign(userForToken, config.JWT_SECRET) }
       },
     },
@@ -199,7 +194,12 @@ const resolvers = {
       born: (root) => {
         return root.born !== undefined ? root.born : null
       }
-    }
+    },
+    Subscription: {
+        bookAdded: {
+          subscribe: () => pubsub.asyncIterator('BOOK_ADDED')
+        },
+      },
   }
 
 module.exports = resolvers
