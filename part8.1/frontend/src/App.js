@@ -6,9 +6,10 @@ import Addbook from './components/addbook'
 import LoginForm from './components/loginForm'
 import Recommend from './components/recommend'
 import { useState, useEffect } from 'react'
-import { ALL_AUTHORS, BOOK_ADDED } from './queries'
+import { ALL_AUTHORS, BOOK_ADDED, ALL_BOOKS } from './queries'
 
 const App = () => {
+  const result = useQuery(ALL_BOOKS)
   const [token, setToken] = useState(null)
   const client = useApolloClient()
   useEffect(() => {
@@ -17,10 +18,15 @@ const App = () => {
     client.resetStore()
   }, [client])
   useSubscription(BOOK_ADDED, {
-    onData: ({ data }) => {
+    onData: ({ data, client }) => {
       try {
-        console.log(data.data.bookAdded.title)
-        window.alert(`Book ${data.data.bookAdded.title} has been added.`)
+        const addedBook = data.data.bookAdded
+        window.alert(`Book ${addedBook.title} has been added.`)
+        client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+          return {
+            allBooks: allBooks.concat(addedBook),
+          }
+        })
       } catch (error) {
         console.log(error.message)
       }
@@ -31,13 +37,16 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+  
   const allAuthors = useQuery(ALL_AUTHORS)
   const padding = { padding: 5, textDecoration: 'none', color: "black" }
 
   if (allAuthors.loading) {
     return <div>loading...</div>
   }
-
+  if (result.loading) {
+    return <div>loading...</div>
+  }
   return (
     <Router>
     <div>

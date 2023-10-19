@@ -7,6 +7,7 @@ const [genresToShow, setGenresToShow] = useState(null)
 
 const { loading, data } = useQuery(ALL_BOOKS, {
   variables: { genre: genresToShow },
+  pollInterval: 2000
 })
 
 if (loading) {
